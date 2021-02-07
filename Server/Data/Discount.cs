@@ -1,4 +1,4 @@
-﻿namespace Kassa1.Data
+﻿namespace Server.Data
 {
     //Skidka qilish uchun protsent
     public class Discount

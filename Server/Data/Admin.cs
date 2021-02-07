@@ -1,4 +1,4 @@
-﻿namespace Kassa1.Data
+﻿namespace Server.Data
 {
     public class Admin
     {
