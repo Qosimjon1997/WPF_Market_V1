@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="Server.UserControllers.IncomeStatic"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Server.UserControllers"
+             mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Border Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="С" Grid.Column="0" Margin="0,0,15,0" FontSize="22"/>
+                <DatePicker Grid.Column="1" x:Name="date1" Margin="0,0,15,0" FontSize="22"/>
+                <TextBlock Text="до" Grid.Column="2" Margin="0,0,15,0" FontSize="22"/>
+                <DatePicker Grid.Column="3" x:Name="date2" Margin="0,0,15,0" FontSize="22"/>
+                <TextBlock Text="Работник" Grid.Column="4" Margin="0,0,15,0" FontSize="22"/>
+                <ComboBox Grid.Column="5" x:Name="combWorker" Margin="0,0,15,0" FontSize="22"/>
+                <Button x:Name="btnSearch" Grid.Column="6" Click="btnSearch_Click" Content="Поиск" FontSize="22"/>
+            </Grid>
+            <Grid Grid.Row="1" Margin="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="0,0,15,0" FontSize="22" Text="Цена товара:"/>
+                <TextBlock Grid.Column="1" x:Name="labAllSumma" Margin="0,0,15,0" FontSize="22" Text="0" TextAlignment="Left"/>
+                <TextBlock Grid.Column="2" Margin="0,0,15,0" FontSize="22" Text="Цена товара со скидкой:"/>
+                <TextBlock Grid.Column="3" x:Name="labAllSummaWithSkidka" Margin="0,0,15,0" FontSize="22" Text="0" TextAlignment="Left"/>
+                <TextBlock Grid.Column="4" Margin="0,0,15,0" FontSize="22" Text="Наличными:"/>
+                <TextBlock Grid.Column="5" x:Name="labNaxt" Margin="0,0,15,0" FontSize="22" Text="0" TextAlignment="Left"/>
+            </Grid>
+            <Grid Grid.Row="2" Margin="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="0,0,15,0" FontSize="22" Text="В пластику:"/>
+                <TextBlock Grid.Column="1" x:Name="labPlastik" Margin="0,0,15,0" FontSize="22" Text="0" TextAlignment="Left"/>
+                <TextBlock Grid.Column="2" Margin="0,0,15,0" FontSize="22" Text="В долгу:"/>
+                <TextBlock Grid.Column="3" x:Name="labQarzga" Margin="0,0,15,0" FontSize="22" Text="0" TextAlignment="Left"/>
+                <TextBlock Grid.Column="4" Margin="0,0,15,0" FontSize="22" Text="Из долга:"/>
+                <TextBlock Grid.Column="5" x:Name="labQarzdan" Margin="0,0,15,0" FontSize="22" Text="0" TextAlignment="Left"/>
+            </Grid>
+            <Grid Grid.Row="3" Margin="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="0,0,15,0" FontSize="22" Text="Возврат:"/>
+                <TextBlock Grid.Column="1" x:Name="labVazvrat" Margin="0,0,15,0" FontSize="22" Text="0" TextAlignment="Left"/>
+                <Button x:Name="btnExportExcel" Grid.Column="5" Click="btnExportExcel_Click" Content="Экспорт в Excel" FontSize="22"/>
+            </Grid>
+
+            <DataGrid Grid.Row="4" x:Name="DG_Income" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  FontSize="16" Margin="0,10,0,10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Цена товара" Width="*"  Binding="{Binding SaleProductPrice, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Цена товара со скидкой" Width="*"  Binding="{Binding SaleProductWithDiscountPrice, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Наличными" Width="*"  Binding="{Binding CashIncome, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="В пластику" Width="*" Binding="{Binding PlasticIncome, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="В долгу" Width="*"  Binding="{Binding DebtOut, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Из долга" Width="*"  Binding="{Binding DebtIncome, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Возврат" Width="*"  Binding="{Binding Vozvrat, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Дата" Width="200"  Binding="{Binding DateTimeNow, Mode=OneWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Border>
+</UserControl>

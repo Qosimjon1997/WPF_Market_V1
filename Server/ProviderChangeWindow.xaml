@@ -1,0 +1,30 @@
+﻿<Window x:Class="Server.ProviderChangeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Server"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        KeyDown="Window_KeyDown"
+        WindowStartupLocation="CenterScreen"
+        Title="Market Account-Изменить поставщик" Height="200" Width="800">
+    <Border Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Изменить указанный поставщик" FontSize="22" TextAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" x:Name="txtSearch" BorderBrush="Black" BorderThickness="2" FontSize="18" Margin="0,0,10,0" />
+                <Button Grid.Column="1" x:Name="btnSave" Margin="10,0,0,0" Click="btnSave_Click" Content="Сохранить" FontSize="18"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

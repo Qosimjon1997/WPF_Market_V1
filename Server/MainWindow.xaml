@@ -5,8 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Server"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Title="Market Account-Админ панель" Height="450" Width="800">
+    <Border Padding="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer CanContentScroll="True">
+                <Grid Grid.Column="0" Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="btnWorker" Grid.Row="0" Margin="0,0,0,2" FontSize="16" Click="btnWorker_Click" Content="Сотрудники"/>
+                    <Button x:Name="btnProduct" Grid.Row="1" Margin="0,2,0,2" FontSize="16" Click="btnProduct_Click" Content="Продукты"/>
+                    <Button x:Name="btnTypeProduct" Grid.Row="2" Margin="0,2,0,2" FontSize="16" Click="btnTypeProduct_Click" Content="Добавить тип &#xa;    продукта"/>
+                    <Button x:Name="btnTypeMass" Grid.Row="3" Margin="0,2,0,2" FontSize="16" Click="btnTypeMass_Click" Content="Добавить тип &#xA;масса продукта"/>
+                    <Button x:Name="btnProvider" Grid.Row="4" Margin="0,2,0,2" FontSize="16" Click="btnProvider_Click" Content="Добавить&#xA;поставщик"/>
+                    <Button x:Name="btnDebtor" Grid.Row="5" Margin="0,2,0,2" FontSize="16" Click="btnDebtor_Click" Content="Должники"/>
+                    <Button x:Name="btnIncome" Grid.Row="6" Margin="0,2,0,2" FontSize="16" Click="btnIncome_Click" Content="Поступление &#xA;     денег"/>
+                    <Button x:Name="btnDiscount" Grid.Row="7" Margin="0,2,0,2" FontSize="16" Click="btnDiscount_Click" Content="Учетная &#xA;процент"/>
+                    <Button x:Name="btnStatistikaProduct" Grid.Row="8" Margin="0,2,0,2" FontSize="16" Click="btnStatistikaProduct_Click" Content="Статистика&#xA;  товаров"/>
+                    <Button x:Name="btnChangePassword" Grid.Row="9" Margin="0,2,0,2" FontSize="16" Click="btnChangePassword_Click" Content="Изменит пароль"/>
+                    <Button x:Name="btnChangePartiya" Grid.Row="10" Margin="0,2,0,2" FontSize="16" Click="btnChangePartiya_Click" Content="Изменить партию"/>
+                    <Button x:Name="btnVazvrat" Grid.Row="11" Margin="0,2,0,2" FontSize="16" Click="btnVazvrat_Click" Content="Возврать"/>
+                    <Button x:Name="btnSrokUtgan" Grid.Row="12" Margin="0,2,0,2" FontSize="16" Click="btnSrokUtgan_Click" Content="Просроченные&#xA;     товаровы"/>
+                    
+                </Grid>
+            </ScrollViewer>
+            <Grid Grid.Column="1" x:Name="gridForUC">
+                
+            </Grid>
+        </Grid>
+    </Border>
 </Window>
