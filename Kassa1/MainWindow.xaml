@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
+        KeyDown="Window_KeyDown"
         Loaded="Window_Loaded"
         Title="Market Account-Касса" Height="700" Width="903">
     <Border Padding="10">
@@ -57,16 +58,16 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <TextBox Grid.Row="0" x:Name="txtShtrix"  Margin="5,0,5,0" FontSize="26"/>
+                        <TextBox Grid.Row="0" x:Name="txtShtrix" PreviewTextInput="txtShtrix_PreviewTextInput" Margin="5,0,5,0" FontSize="26"/>
                         <Grid Grid.Row="1" Height="50" Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Content="1" FontSize="18" Margin="0,0,5,0"/>
-                            <Button Grid.Column="1" Content="2" FontSize="18" Margin="2.5,0,2.5,0"/>
-                            <Button Grid.Column="2" Content="3" FontSize="18" Margin="5,0,0,0"/>
+                            <Button Grid.Column="0" Content="1" x:Name="btn1" Click="btn1_Click" FontSize="18" Margin="0,0,5,0"/>
+                            <Button Grid.Column="1" Content="2" x:Name="btn2" Click="btn2_Click" FontSize="18" Margin="2.5,0,2.5,0"/>
+                            <Button Grid.Column="2" Content="3" x:Name="btn3" Click="btn3_Click" FontSize="18" Margin="5,0,0,0"/>
                         </Grid>
                         <Grid Grid.Row="2" Height="50" Margin="5">
                             <Grid.ColumnDefinitions>
@@ -74,9 +75,9 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Content="4" FontSize="18" Margin="0,0,5,0"/>
-                            <Button Grid.Column="1" Content="5" FontSize="18" Margin="2.5,0,2.5,0"/>
-                            <Button Grid.Column="2" Content="6" FontSize="18" Margin="5,0,0,0"/>
+                            <Button Grid.Column="0" Content="4" x:Name="btn4" Click="btn4_Click" FontSize="18" Margin="0,0,5,0"/>
+                            <Button Grid.Column="1" Content="5" x:Name="btn5" Click="btn5_Click" FontSize="18" Margin="2.5,0,2.5,0"/>
+                            <Button Grid.Column="2" Content="6" x:Name="btn6" Click="btn6_Click" FontSize="18" Margin="5,0,0,0"/>
                         </Grid>
                         <Grid Grid.Row="3" Height="50" Margin="5">
                             <Grid.ColumnDefinitions>
@@ -84,9 +85,9 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Content="7" FontSize="18" Margin="0,0,5,0"/>
-                            <Button Grid.Column="1" Content="8" FontSize="18" Margin="2.5,0,2.5,0"/>
-                            <Button Grid.Column="2" Content="9" FontSize="18" Margin="5,0,0,0"/>
+                            <Button Grid.Column="0" Content="7" x:Name="btn7" Click="btn7_Click" FontSize="18" Margin="0,0,5,0"/>
+                            <Button Grid.Column="1" Content="8" x:Name="btn8" Click="btn8_Click" FontSize="18" Margin="2.5,0,2.5,0"/>
+                            <Button Grid.Column="2" Content="9" x:Name="btn9" Click="btn9_Click" FontSize="18" Margin="5,0,0,0"/>
                         </Grid>
                         <Grid Grid.Row="4" Height="50" Margin="5">
                             <Grid.ColumnDefinitions>
@@ -94,21 +95,21 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Content="0" FontSize="18" Margin="0,0,5,0"/>
-                            <Button Grid.Column="1" Content="&lt;--" FontSize="18" Margin="2.5,0,2.5,0"/>
-                            <Button Grid.Column="2" Content="Ввод" FontSize="18" Margin="5,0,0,0" Foreground="Black"/>
+                            <Button Grid.Column="0" x:Name="btn0" Content="0" Click="btn0_Click" FontSize="18" Margin="0,0,5,0"/>
+                            <Button Grid.Column="1" x:Name="btnBackspace" Click="btnBackspace_Click" Content="&lt;--" FontSize="18" Margin="2.5,0,2.5,0"/>
+                            <Button Grid.Column="2" x:Name="btnEnterNumber" Click="btnEnterNumber_Click" Content="Ввод" FontSize="18" Margin="5,0,0,0" Foreground="Black"/>
                         </Grid>
                         <Grid Grid.Row="5" Height="50" Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="1" Content="Продавать (F10)" FontSize="22" Margin="2.5,0,0,0" Background="#FF6EDC00" Foreground="Black"/>
+                            <Button Grid.Column="1" Content="Продавать (F10)" Click="btnSale_Click" x:Name="btnSale" FontSize="22" Margin="2.5,0,0,0" Background="#FF6EDC00" Foreground="Black"/>
                         </Grid>
                         <Grid Grid.Row="6" Height="50" Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="1" Content="Очистка" FontSize="22" Margin="2.5,0,0,0" Background="#FFFF7A7A" Foreground="Black"/>
+                            <Button Grid.Column="1" Content="Очистка" Click="btnDeleteKassa_Click" x:Name="btnDeleteKassa" FontSize="22" Margin="2.5,0,0,0" Background="#FFFF7A7A" Foreground="Black"/>
                         </Grid>
                     </Grid>
 
@@ -151,9 +152,9 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" FontSize="16" Margin="0,0,5,0" Content=" Товар без&#xA;штрих-кода"/>
-                            <Button Grid.Column="1" FontSize="16" Margin="5,0,5,0" Content="Изменит&#xA; пароль"/>
-                            <Button Grid.Column="2" FontSize="16" Margin="5,0,5,0" Content="Должники"/>
+                            <Button Grid.Column="0" FontSize="16" x:Name="btnProductNoBar" Click="btnProductNoBar_Click" Margin="0,0,5,0" Content=" Товар без&#xA;штрих-кода"/>
+                            <Button Grid.Column="1" FontSize="16" x:Name="btnChangePassword" Click="btnChangePassword_Click" Margin="5,0,5,0" Content="Изменит&#xA; пароль"/>
+                            <Button Grid.Column="2" FontSize="16" x:Name="btnDebtors" Click="btnDebtors_Click" Margin="5,0,5,0" Content="Должники"/>
                         </Grid>
 
                     </Grid>

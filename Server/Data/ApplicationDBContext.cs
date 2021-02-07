@@ -1,7 +1,12 @@
-﻿using Kassa1.Properties;
+﻿using Server.Properties;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Kassa1.Data
+namespace Server.Data
 {
     public class ApplicationDBContext :DbContext
     {

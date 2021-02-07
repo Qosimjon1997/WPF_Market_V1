@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kassa1.Data
+namespace Server.Data
 {
     public class Debt
     {

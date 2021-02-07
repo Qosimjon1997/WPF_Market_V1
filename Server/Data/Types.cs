@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace Kassa1.Data
+namespace Server.Data
 {
-    public class Massa
+    public class Types
     {
-        //Tovarni o'lchash turi
+        //Tovarning turi
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string TypeName { get; set; }
 
         public List<Product> Products { get; set; }
     }

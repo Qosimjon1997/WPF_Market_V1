@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kassa1.Data
+namespace Server.Data
 {
     public class DebtInfo
     {

@@ -1,0 +1,109 @@
+﻿<Window x:Class="Kassa1.SellingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kassa1"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown"
+        Title="Market Account-Оплата" Height="650" Width="1000">
+    <Border Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="0,0,20,0" FontSize="22" TextAlignment="Center" Text="Сумма:"/>
+                <TextBlock Grid.Column="1" Margin="0,0,0,0" FontSize="22" TextAlignment="Center" Text="0" x:Name="labSUMM"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0,20,0,50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="0,0,20,0" FontSize="22" TextAlignment="Center" Text="Наличными:"/>
+                <TextBox Grid.Column="1" KeyUp="txtNaqt_KeyUp" Margin="0,0,20,0" Text="0" FontSize="22" x:Name="txtNaqt" BorderBrush="Black" BorderThickness="2" PreviewTextInput="txtNaqt_PreviewTextInput"/>
+                <TextBlock Grid.Column="2" Margin="0,0,20,0" FontSize="22" TextAlignment="Center" Text="В пластику:"/>
+                <TextBox Grid.Column="3" KeyUp="txtPlastik_KeyUp" Margin="0,0,20,0" Text="0" FontSize="22" x:Name="txtPlastik" BorderBrush="Black" BorderThickness="2" PreviewTextInput="txtPlastik_PreviewTextInput"/>
+                <CheckBox Grid.Column="4" Margin="0,0,20,0" FontSize="22" x:Name="checkQarz" Content="В долгу:" Click="checkQarz_Click"/>
+                <TextBox Grid.Column="5" KeyUp="txtQarz_KeyUp" IsEnabled="False" FontSize="22" Text="0" x:Name="txtQarz" BorderBrush="Black" BorderThickness="2" PreviewTextInput="txtQarz_PreviewTextInput"/>
+            </Grid>
+            <GroupBox Grid.Row="2" IsEnabled="False" Header="Регистрация долга" FontSize="16" x:Name="QarzGruh" Margin="0,20,0,20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="200"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="0,0,20,0" FontSize="22"  Text="Должник:"/>
+                        <TextBlock Grid.Column="1" x:Name="txtFIO_Qarzdor" Margin="0,0,20,0" FontSize="22" TextAlignment="Center" Text="Ф.И.О"/>
+                        <DatePicker Grid.Column="3" FontSize="22" x:Name="date1"/>
+                    </Grid>
+
+                    <GroupBox Grid.Row="1" Header="Новый должник" FontSize="16" Margin="0,20,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="213.99"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Margin="0,0,20,0" FontSize="22" Text="Ф.И.О"/>
+                            <TextBox Grid.Column="1" x:Name="txtFIO" Margin="0,0,20,0" FontSize="22"  BorderBrush="Black" BorderThickness="2"/>
+                            <TextBlock Grid.Column="2" Margin="0,0,20,0" FontSize="22" Text="Адрес"/>
+                            <TextBox Grid.Column="3" x:Name="txtAddress" Margin="0,0,20,0" FontSize="22"  BorderBrush="Black" BorderThickness="2"/>
+                            <TextBlock Grid.Column="4" Margin="0,0,20,0" FontSize="22" Text="Тел"/>
+                            <TextBox Grid.Column="5" x:Name="txtTel" Margin="0,0,20,0" FontSize="22"  BorderBrush="Black" BorderThickness="2"/>
+                            <Button Grid.Column="6" Content="Добавить" FontSize="22" x:Name="btnAddNewDebtor" Click="btnAddNewDebtor_Click"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <DataGrid MouseDoubleClick="DG_AllDebtor_MouseDoubleClick" x:Name="DG_AllDebtor" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" Grid.Row="2" FontSize="16" Margin="0,10,0,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ф.И.О" Width="*"  Binding="{Binding FIO, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Адрес" Width="*" Binding="{Binding Address, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Тел" Width="180"  Binding="{Binding Phone, Mode=OneWay}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </GroupBox>
+
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox Grid.Column="0" Margin="100,0,20,0" FontSize="22" x:Name="checkPrintCheck" Content="Распечатать чек"/>
+                <Button Grid.Column="1" Width="200" FontSize="22" Content="OK" x:Name="btnOK" Click="btnOK_Click"/>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,26 @@
+﻿<Window x:Class="Kassa1.ProductOfNoBarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kassa1"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown"
+        Loaded="Window_Loaded"
+        Title="Market Account-Погашение задолженности" Height="450" Width="800">
+    <Border Padding="10">
+        <Grid>
+            <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  FontSize="16" x:Name="DG_Debt"  Margin="0,10,0,10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="1" Width="*"  Binding="{Binding FIO, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="2" Width="100" Binding="{Binding Address, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="3" Width="130"  Binding="{Binding Phone, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="4" Width="100"  Binding="{Binding dateTimeFrom, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="5" Width="100"  Binding="{Binding dateTimeUntil, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="6" Width="80" Binding="{Binding Price, Mode=OneWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Border>
+</Window>
