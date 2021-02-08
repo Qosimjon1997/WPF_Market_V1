@@ -16,6 +16,7 @@ namespace Kassa1.Data
         public DbSet<Partiya> Partiyas { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Provider> Providers { get; set; }
+        public DbSet<Smena> Smenas { get; set; }
         public DbSet<Sold> Solds { get; set; }
         public DbSet<Types> Types { get; set; }
         public DbSet<Vazvrat> Vazvrats { get; set; }

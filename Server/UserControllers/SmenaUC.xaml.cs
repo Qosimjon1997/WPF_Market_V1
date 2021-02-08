@@ -22,11 +22,11 @@ using System.Windows.Shapes;
 namespace Server.UserControllers
 {
     /// <summary>
-    /// Interaction logic for DebtHistoryUC.xaml
+    /// Interaction logic for SmenaUC.xaml
     /// </summary>
-    public partial class DebtHistoryUC : UserControl
+    public partial class SmenaUC : UserControl
     {
-        public DebtHistoryUC()
+        public SmenaUC()
         {
             InitializeComponent();
         }
@@ -35,11 +35,23 @@ namespace Server.UserControllers
         {
             date1.SelectedDate = DateTime.Today;
             date2.SelectedDate = DateTime.Today;
-            combTypeDebt.Items.Add("Все");
-            combTypeDebt.Items.Add("Оплачено");
-            combTypeDebt.Items.Add("Не оплачено");
-
-            combTypeDebt.SelectedIndex = 0;
+            try
+            {
+                using(ApplicationDBContext context = new ApplicationDBContext())
+                {
+                    var v = (from a in context.Workers
+                             select a).ToList();
+                    foreach (var a in v)
+                    {
+                        combTypeDebt.Items.Add(a.FIO);
+                    }
+                }
+                combTypeDebt.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
+            }
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
@@ -49,60 +61,13 @@ namespace Server.UserControllers
                 DateTime second = new DateTime(Convert.ToInt32(date2.SelectedDate.Value.ToString("yyyy")), Convert.ToInt32(date2.SelectedDate.Value.ToString("MM")), Convert.ToInt32(date2.SelectedDate.Value.ToString("dd")), 23, 59, 59);
                 using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    if (combTypeDebt.SelectedIndex == 0)
-                    {
-                        var v = (from a in context.Debts
-                             .Include(x => x.DebtInfo)
-                                 where date1.SelectedDate <= a.dateTimeFrom && a.dateTimeFrom <= second
-                                 select new InfoDebt()
-                                 {
-                                     Id = a.Id,
-                                     FIO = a.DebtInfo.FIO,
-                                     Address = a.DebtInfo.Address,
-                                     Phone = a.DebtInfo.Phone,
-                                     dateTimeFrom = a.dateTimeFrom,
-                                     dateTimeLastPay = a.dateTimePay,
-                                     dateTimeUntil = a.dateTimeUntil,
-                                     Price = a.Price
-                                 }).ToList();
-                        DG.ItemsSource = v;
-                    }
-                    else if (combTypeDebt.SelectedIndex == 1)
-                    {
-                        var v = (from a in context.Debts
-                             .Include(x => x.DebtInfo)
-                                 where date1.SelectedDate <= a.dateTimeFrom && a.dateTimeFrom <= second && a.Price == 0
-                                 select new InfoDebt()
-                                 {
-                                     Id = a.Id,
-                                     FIO = a.DebtInfo.FIO,
-                                     Address = a.DebtInfo.Address,
-                                     Phone = a.DebtInfo.Phone,
-                                     dateTimeFrom = a.dateTimeFrom,
-                                     dateTimeLastPay = a.dateTimePay,
-                                     dateTimeUntil = a.dateTimeUntil,
-                                     Price = a.Price
-                                 }).ToList();
-                        DG.ItemsSource = v;
-                    }
-                    else
-                    {
-                        var v = (from a in context.Debts
-                             .Include(x => x.DebtInfo)
-                                 where date1.SelectedDate <= a.dateTimeFrom && a.dateTimeFrom <= second && a.Price != 0
-                                 select new InfoDebt()
-                                 {
-                                     Id = a.Id,
-                                     FIO = a.DebtInfo.FIO,
-                                     Address = a.DebtInfo.Address,
-                                     Phone = a.DebtInfo.Phone,
-                                     dateTimeFrom = a.dateTimeFrom,
-                                     dateTimeLastPay = a.dateTimePay,
-                                     dateTimeUntil = a.dateTimeUntil,
-                                     Price = a.Price
-                                 }).ToList();
-                        DG.ItemsSource = v;
-                    }
+                    var w = (from a in context.Workers
+                             where a.FIO == combTypeDebt.SelectedItem
+                             select a).FirstOrDefault();
+                    var v = (from a in context.Smenas
+                             where date1.SelectedDate <= a.Started && a.Finished <= second && a.WorkerId == w.Id
+                             select a).ToList();
+                    DG.ItemsSource = v;
 
                 }
 
@@ -111,6 +76,7 @@ namespace Server.UserControllers
             {
                 MessageBox.Show("Error");
             }
+
         }
 
         private void btnExportExcel_Click(object sender, RoutedEventArgs e)
@@ -137,7 +103,7 @@ namespace Server.UserControllers
                             var workbook = new XLWorkbook();
                             IXLWorksheet worksheet = workbook.Worksheets.Add("Sheet1");
                             worksheet.Columns().AdjustToContents();
-                            worksheet.Cell(1, 1).Value = "Отчет с " + date1.SelectedDate + " по " + second + "по видам задолженности " + combTypeDebt.SelectedItem;
+                            worksheet.Cell(1, 1).Value = "Отчет с " + date1.SelectedDate + " по " + second + "по сменами  " + combTypeDebt.SelectedItem;
                             worksheet.Cell(1, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
 
                             worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(1, 6)).Merge();
@@ -188,6 +154,7 @@ namespace Server.UserControllers
             {
                 MessageBox.Show(err.Message);
             }
+
         }
     }
 }

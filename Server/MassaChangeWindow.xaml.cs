@@ -1,4 +1,5 @@
 ﻿using Server.Data;
+using System;
 using System.Linq;
 using System.Windows;
 
@@ -19,29 +20,45 @@ namespace Server
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Massas
-                         where a.Id == _id
-                         select a).FirstOrDefault();
-                v.Name = txtSearch.Text;
-                context.SaveChanges();
-                this.Close();
+                using (ApplicationDBContext context = new ApplicationDBContext())
+                {
+                    var v = (from a in context.Massas
+                             where a.Id == _id
+                             select a).FirstOrDefault();
+                    v.Name = txtSearch.Text;
+                    context.SaveChanges();
+                    this.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Massas
-                         where a.Id == _id
-                         select a).FirstOrDefault();
-                if (v != null)
+                using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    txtSearch.Text = v.Name;
+                    var v = (from a in context.Massas
+                             where a.Id == _id
+                             select a).FirstOrDefault();
+                    if (v != null)
+                    {
+                        txtSearch.Text = v.Name;
+                    }
+                    txtSearch.Focus();
                 }
-                txtSearch.Focus();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 

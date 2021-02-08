@@ -16,15 +16,13 @@ using System.Windows.Shapes;
 namespace Server
 {
     /// <summary>
-    /// Interaction logic for TypeChangeWindow.xaml
+    /// Interaction logic for DiscountWindow.xaml
     /// </summary>
-    public partial class TypeChangeWindow : Window
+    public partial class DiscountWindow : Window
     {
-        private int _id;
-        public TypeChangeWindow(int Id)
+        public DiscountWindow()
         {
             InitializeComponent();
-            _id = Id;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -33,51 +31,54 @@ namespace Server
             {
                 using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    var v = (from a in context.Types
-                             where a.Id == _id
+                    var v = (from a in context.Discounts
                              select a).FirstOrDefault();
                     if (v != null)
                     {
-                        txtSearch.Text = v.TypeName;
+                        myUpDownControl.Value = v.Precent;
                     }
-                    txtSearch.Focus();
                 }
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error");
             }
+            
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Escape)
+            if (e.Key == Key.Escape)
             {
                 this.Close();
             }
-
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (myUpDownControl.Value >= myUpDownControl.Minimum && myUpDownControl.Value <= myUpDownControl.Maximum)
             {
-                using (ApplicationDBContext context = new ApplicationDBContext())
+                try
                 {
-                    var v = (from a in context.Types
-                             where a.Id == _id
-                             select a).FirstOrDefault();
-                    v.TypeName = txtSearch.Text;
-                    context.SaveChanges();
-                    this.Close();
+                    using (ApplicationDBContext context = new ApplicationDBContext())
+                    {
+                        var v = (from a in context.Discounts
+                                 select a).FirstOrDefault();
+                        if (v != null)
+                        {
+                            v.Precent = Convert.ToInt32(myUpDownControl.Value);
+                            context.SaveChanges();
+                            this.Close();
+                        }
+                    }
+
                 }
-
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error");
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error");
-            }
-
         }
     }
 }

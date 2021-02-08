@@ -49,143 +49,183 @@ namespace Server
             txtShtrix.Text = _shtrix;
             txtShtrix.IsEnabled = false;
             txtFoizga.IsEnabled = false;
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-
-                if (_bor == true)
+                using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    txtbazaviyPrice.Focus();
-                    var v = (from a in context.Products
-                             .Include(x => x.Massa)
-                             .Include(y => y.Types)
-                             where a.Shtrix == _shtrix
-                             select a).FirstOrDefault();
 
-                    txtNameOfProduct.Text = v.NameOfProduct;
-                    _id = v.Id;
-                    combTypeMassa.Items.Add(v.Massa.Name.ToString());
-                    combTypeOf.Items.Add(v.Types.TypeName.ToString());
-                    txtNameOfProduct.IsEnabled = combTypeMassa.IsEnabled = combTypeOf.IsEnabled = false;
-                    combTypeMassa.SelectedIndex = 0;
-                    combTypeOf.SelectedIndex = 0;
-                    combTypeMassa.IsEnabled = false;
-                    combTypeOf.IsEnabled = false;
-                }
-                else
-                {
-                    txtNameOfProduct.Focus();
-                    var m = (from a in context.Massas
-                             select a).ToList();
-                    foreach (Massa m1 in m)
+                    if (_bor == true)
                     {
-                        combTypeMassa.Items.Add(m1.Name);
-                    }
+                        txtbazaviyPrice.Focus();
+                        var v = (from a in context.Products
+                                 .Include(x => x.Massa)
+                                 .Include(y => y.Types)
+                                 where a.Shtrix == _shtrix
+                                 select a).FirstOrDefault();
 
-                    var t = (from a in context.Types
-                             select a).ToList();
-                    foreach (Types t1 in t)
+                        txtNameOfProduct.Text = v.NameOfProduct;
+                        _id = v.Id;
+                        combTypeMassa.Items.Add(v.Massa.Name.ToString());
+                        combTypeOf.Items.Add(v.Types.TypeName.ToString());
+                        txtNameOfProduct.IsEnabled = combTypeMassa.IsEnabled = combTypeOf.IsEnabled = false;
+                        combTypeMassa.SelectedIndex = 0;
+                        combTypeOf.SelectedIndex = 0;
+                        combTypeMassa.IsEnabled = false;
+                        combTypeOf.IsEnabled = false;
+                    }
+                    else
                     {
-                        combTypeOf.Items.Add(t1.TypeName);
+                        txtNameOfProduct.Focus();
+                        var m = (from a in context.Massas
+                                 select a).ToList();
+                        foreach (Massa m1 in m)
+                        {
+                            combTypeMassa.Items.Add(m1.Name);
+                        }
+
+                        var t = (from a in context.Types
+                                 select a).ToList();
+                        foreach (Types t1 in t)
+                        {
+                            combTypeOf.Items.Add(t1.TypeName);
+                        }
+                    }
+                    date1.SelectedDate = DateTime.Today;
+                    var y = (from a in context.Providers
+                             select a).ToList();
+                    foreach (Provider p in y)
+                    {
+                        combProvider.Items.Add(p.ProviderName);
                     }
                 }
-                date1.SelectedDate = DateTime.Today;
-                var y = (from a in context.Providers
-                         select a).ToList();
-                foreach (Provider p in y)
-                {
-                    combProvider.Items.Add(p.ProviderName);
-                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
 
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                if (_bor == true)
+                using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    Partiya partiya = new Partiya()
+                    if (_bor == true)
                     {
-                        BazaPrice = Convert.ToDecimal(txtbazaviyPrice.Text),
-                        SalePrice = Convert.ToDecimal(txtSotuvPrice.Text),
-                        CountProduct = Convert.ToDecimal(txtSoni.Text),
-                        CountProduct2 = Convert.ToDecimal(txtSoni.Text),
-                        TodayDate = (DateTime)date1.SelectedDate,
-                        ProductId = _id,
-                        ProviderId = tProvider,
-                    };
-                    context.Partiyas.Add(partiya);
-                    context.SaveChanges();
-                }
-                else
-                {
-                    Product product = new Product()
+                        Partiya partiya = new Partiya()
+                        {
+                            BazaPrice = Convert.ToDecimal(txtbazaviyPrice.Text),
+                            SalePrice = Convert.ToDecimal(txtSotuvPrice.Text),
+                            CountProduct = Convert.ToDecimal(txtSoni.Text),
+                            CountProduct2 = Convert.ToDecimal(txtSoni.Text),
+                            TodayDate = (DateTime)date1.SelectedDate,
+                            ProductId = _id,
+                            ProviderId = tProvider,
+                        };
+                        context.Partiyas.Add(partiya);
+                        context.SaveChanges();
+                    }
+                    else
                     {
-                        Shtrix = txtShtrix.Text,
-                        NameOfProduct = txtNameOfProduct.Text,
-                        MassaId = tMassa,
-                        TypesId = tType,
-                    };
-                    context.Products.Add(product);
-                    context.SaveChanges();
+                        Product product = new Product()
+                        {
+                            Shtrix = txtShtrix.Text,
+                            NameOfProduct = txtNameOfProduct.Text,
+                            MassaId = tMassa,
+                            TypesId = tType,
+                        };
+                        context.Products.Add(product);
+                        context.SaveChanges();
 
-                    Partiya partiya = new Partiya()
-                    {
-                        BazaPrice = Convert.ToDecimal(txtbazaviyPrice.Text),
-                        SalePrice = Convert.ToDecimal(txtSotuvPrice.Text),
-                        CountProduct = Convert.ToDecimal(txtSoni.Text),
-                        CountProduct2 = Convert.ToDecimal(txtSoni.Text),
-                        TodayDate = (DateTime)date1.SelectedDate,
-                        Product = product,
-                        ProviderId = tProvider
-                    };
-                    context.Partiyas.Add(partiya);
-                    context.SaveChanges();
+                        Partiya partiya = new Partiya()
+                        {
+                            BazaPrice = Convert.ToDecimal(txtbazaviyPrice.Text),
+                            SalePrice = Convert.ToDecimal(txtSotuvPrice.Text),
+                            CountProduct = Convert.ToDecimal(txtSoni.Text),
+                            CountProduct2 = Convert.ToDecimal(txtSoni.Text),
+                            TodayDate = (DateTime)date1.SelectedDate,
+                            Product = product,
+                            ProviderId = tProvider
+                        };
+                        context.Partiyas.Add(partiya);
+                        context.SaveChanges();
+                    }
+                    this.Close();
                 }
-                this.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 
         private void combTypeMassa_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Massas
-                         where a.Name == combTypeMassa.SelectedItem.ToString()
-                         select a).FirstOrDefault();
-                if (v != null)
+                using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    tMassa = v.Id;
+                    var v = (from a in context.Massas
+                             where a.Name == combTypeMassa.SelectedItem.ToString()
+                             select a).FirstOrDefault();
+                    if (v != null)
+                    {
+                        tMassa = v.Id;
+                    }
                 }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 
         private void combTypeOf_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Types
-                         where a.TypeName == combTypeOf.SelectedItem.ToString()
-                         select a).FirstOrDefault();
-                if (v != null)
+                using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    tType = v.Id;
+                    var v = (from a in context.Types
+                             where a.TypeName == combTypeOf.SelectedItem.ToString()
+                             select a).FirstOrDefault();
+                    if (v != null)
+                    {
+                        tType = v.Id;
+                    }
                 }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 
         private void combProvider_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Providers
-                         where a.ProviderName == combProvider.SelectedItem.ToString()
-                         select a).FirstOrDefault();
-                if (v != null)
+                using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    tProvider = v.Id;
+                    var v = (from a in context.Providers
+                             where a.ProviderName == combProvider.SelectedItem.ToString()
+                             select a).FirstOrDefault();
+                    if (v != null)
+                    {
+                        tProvider = v.Id;
+                    }
                 }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 

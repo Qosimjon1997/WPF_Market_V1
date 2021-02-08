@@ -70,5 +70,53 @@ namespace Kassa1.Properties {
                 this["Password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WorkerId {
+            get {
+                return ((int)(this["WorkerId"]));
+            }
+            set {
+                this["WorkerId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WorkerFIO {
+            get {
+                return ((string)(this["WorkerFIO"]));
+            }
+            set {
+                this["WorkerFIO"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WorkerEntered {
+            get {
+                return ((bool)(this["WorkerEntered"]));
+            }
+            set {
+                this["WorkerEntered"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string StartSmena {
+            get {
+                return ((string)(this["StartSmena"]));
+            }
+            set {
+                this["StartSmena"] = value;
+            }
+        }
     }
 }

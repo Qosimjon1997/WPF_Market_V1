@@ -1,4 +1,5 @@
 ﻿using Server.Data;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -37,22 +38,30 @@ namespace Server
         {
             if (txtShtrix.Text != "")
             {
-                using (ApplicationDBContext context = new ApplicationDBContext())
+                try
                 {
-                    var v = (from a in context.Products
-                             where a.Shtrix == txtShtrix.Text
-                             select a).FirstOrDefault();
-                    if (v == null)
+                    using (ApplicationDBContext context = new ApplicationDBContext())
                     {
-                        AddProductWindow window = new AddProductWindow(txtShtrix.Text, false);
-                        window.ShowDialog();
+                        var v = (from a in context.Products
+                                 where a.Shtrix == txtShtrix.Text
+                                 select a).FirstOrDefault();
+                        if (v == null)
+                        {
+                            AddProductWindow window = new AddProductWindow(txtShtrix.Text, false);
+                            window.ShowDialog();
+                        }
+                        else
+                        {
+                            AddProductWindow window = new AddProductWindow(txtShtrix.Text, true);
+                            window.ShowDialog();
+                        }
+                        txtShtrix.Text = "";
                     }
-                    else
-                    {
-                        AddProductWindow window = new AddProductWindow(txtShtrix.Text, true);
-                        window.ShowDialog();
-                    }
-                    txtShtrix.Text = "";
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error");
                 }
             }
         }

@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="Server.UserControllers.VazvratUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Server.UserControllers"
+             mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Border Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Возврать" TextAlignment="Center" FontSize="24" Margin="0,5,0,10" />
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0,10,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="С" Grid.Column="0" Margin="0,0,15,0" FontSize="22"/>
+                    <DatePicker Grid.Column="1" x:Name="date1" Margin="0,0,15,0" FontSize="22"/>
+                    <TextBlock Text="до" Grid.Column="2" Margin="0,0,15,0" FontSize="22"/>
+                    <DatePicker Grid.Column="3" x:Name="date2" Margin="0,0,15,0" FontSize="22"/>
+                    <TextBlock Text="Работник" Grid.Column="4" Margin="0,0,15,0" FontSize="22"/>
+                    <ComboBox Grid.Column="5" x:Name="combWorker" Margin="0,0,15,0" FontSize="22"/>
+                    <Button x:Name="btnSearch" Grid.Column="6" Click="btnSearch_Click" Content="Поиск" FontSize="22"/>
+                </Grid>
+
+                <DataGrid Grid.Row="4" x:Name="DG_Sold" MouseDoubleClick="DG_Sold_MouseDoubleClick" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  FontSize="16" Margin="0,10,0,10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Штрих-код" Width="*"  Binding="{Binding Shtrix, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Товар" Width="2*"  Binding="{Binding NameOfProduct, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Тип" Width="*"  Binding="{Binding TypeName, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Массовый тип" Width="*" Binding="{Binding MassaName, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Кол-во" Width="*"  Binding="{Binding CountProduct, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Цена" Width="*"  Binding="{Binding SalePrice, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Сумма" Width="*"  Binding="{Binding AllSumma, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Дата" Width="200"  Binding="{Binding dateTimeNow, Mode=OneWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            
+        </Grid>
+    </Border>
+
+</UserControl>

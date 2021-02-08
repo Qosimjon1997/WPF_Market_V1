@@ -1,4 +1,5 @@
 ﻿using Server.Data;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,44 +18,60 @@ namespace Server.UserControllers
         }
         private void Refresh()
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Providers
-                         select a).ToList();
-                DG_Provider.ItemsSource = v;
+                using (ApplicationDBContext context = new ApplicationDBContext())
+                {
+                    var v = (from a in context.Providers
+                             select a).ToList();
+                    DG_Provider.ItemsSource = v;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Refresh();
+            txtSearch.Focus();
         }
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             if (txtSearch.Text != "")
             {
-                using (ApplicationDBContext context = new ApplicationDBContext())
+                try
                 {
-                    var v = (from a in context.Providers
-                             where a.ProviderName == txtSearch.Text
-                             select a).FirstOrDefault();
-                    if (v == null)
+                    using (ApplicationDBContext context = new ApplicationDBContext())
                     {
-                        Provider t = new Provider()
+                        var v = (from a in context.Providers
+                                 where a.ProviderName == txtSearch.Text
+                                 select a).FirstOrDefault();
+                        if (v == null)
                         {
-                            ProviderName = txtSearch.Text
-                        };
-                        context.Providers.Add(t);
-                        context.SaveChanges();
-                        txtSearch.Text = "";
+                            Provider t = new Provider()
+                            {
+                                ProviderName = txtSearch.Text
+                            };
+                            context.Providers.Add(t);
+                            context.SaveChanges();
+                            txtSearch.Text = "";
+                        }
+                        else
+                        {
+                            MessageBox.Show("У нас ест такое поставщик");
+                            txtSearch.Text = "";
+                        }
+                        Refresh();
                     }
-                    else
-                    {
-                        MessageBox.Show("У нас ест такое поставщик");
-                        txtSearch.Text = "";
-                    }
-                    Refresh();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error");
                 }
             }
         }

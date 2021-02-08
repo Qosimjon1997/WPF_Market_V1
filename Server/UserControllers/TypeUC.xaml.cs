@@ -34,11 +34,19 @@ namespace Server.UserControllers
 
         private void Refresh()
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Types
-                         select a).ToList();
-                DG_Type.ItemsSource = v;
+                using (ApplicationDBContext context = new ApplicationDBContext())
+                {
+                    var v = (from a in context.Types
+                             select a).ToList();
+                    DG_Type.ItemsSource = v;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 
@@ -46,27 +54,35 @@ namespace Server.UserControllers
         {
             if (txtSearch.Text != "")
             {
-                using (ApplicationDBContext context = new ApplicationDBContext())
+                try
                 {
-                    var v = (from a in context.Types
-                             where a.TypeName == txtSearch.Text
-                             select a).FirstOrDefault();
-                    if (v == null)
+                    using (ApplicationDBContext context = new ApplicationDBContext())
                     {
-                        Types t = new Types()
+                        var v = (from a in context.Types
+                                 where a.TypeName == txtSearch.Text
+                                 select a).FirstOrDefault();
+                        if (v == null)
                         {
-                            TypeName = txtSearch.Text
-                        };
-                        context.Types.Add(t);
-                        context.SaveChanges();
-                        txtSearch.Text = "";
+                            Types t = new Types()
+                            {
+                                TypeName = txtSearch.Text
+                            };
+                            context.Types.Add(t);
+                            context.SaveChanges();
+                            txtSearch.Text = "";
+                        }
+                        else
+                        {
+                            MessageBox.Show("У нас ест такое тип");
+                            txtSearch.Text = "";
+                        }
+                        Refresh();
                     }
-                    else
-                    {
-                        MessageBox.Show("У нас ест такое тип");
-                        txtSearch.Text = "";
-                    }
-                    Refresh();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error");
                 }
             }
 
