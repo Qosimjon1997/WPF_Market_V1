@@ -23,100 +23,116 @@ namespace Server.UserControllers
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Workers
-                         select a).ToList();
-                combWorker.Items.Add("Все");
-                combWorker.SelectedIndex = 0;
-                foreach (Worker w in v)
+                using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    combWorker.Items.Add(w.FIO);
+                    var v = (from a in context.Workers
+                             select a).ToList();
+                    combWorker.Items.Add("Все");
+                    combWorker.SelectedIndex = 0;
+                    foreach (Worker w in v)
+                    {
+                        combWorker.Items.Add(w.FIO);
+                    }
                 }
+                date1.SelectedDate = DateTime.Today;
+                date2.SelectedDate = DateTime.Today;
             }
-            date1.SelectedDate = DateTime.Today;
-            date2.SelectedDate = DateTime.Today;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
+            }
+            
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            DateTime second = new DateTime(Convert.ToInt32(date2.SelectedDate.Value.ToString("yyyy")), Convert.ToInt32(date2.SelectedDate.Value.ToString("MM")), Convert.ToInt32(date2.SelectedDate.Value.ToString("dd")), 23, 59, 59);
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                if (combWorker.SelectedItem != null && date1.SelectedDate.ToString() != "" && date2.SelectedDate.ToString() != "")
+                DateTime second = new DateTime(Convert.ToInt32(date2.SelectedDate.Value.ToString("yyyy")), Convert.ToInt32(date2.SelectedDate.Value.ToString("MM")), Convert.ToInt32(date2.SelectedDate.Value.ToString("dd")), 23, 59, 59);
+                using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    if (combWorker.SelectedItem.ToString() == "Все")
+                    if (combWorker.SelectedItem != null && date1.SelectedDate.ToString() != "" && date2.SelectedDate.ToString() != "")
                     {
-                        var v = (from a in context.Incomes
-                                 where a.DateTimeNow >= date1.SelectedDate && a.DateTimeNow <= second
-                                 select a).ToList();
-                        DG_Income.ItemsSource = v;
-
-                        decimal allSumm = 0;
-                        decimal allSummWithSkidka = 0;
-                        decimal cas = 0;
-                        decimal plas = 0;
-                        decimal qarzberish = 0;
-                        decimal qarzqaytish = 0;
-                        decimal vazvr = 0;
-                        foreach (Income i in v)
+                        if (combWorker.SelectedItem.ToString() == "Все")
                         {
-                            allSumm += i.SaleProductPrice;
-                            allSummWithSkidka += i.SaleProductWithDiscountPrice;
-                            cas += i.CashIncome;
-                            plas += i.PlasticIncome;
-                            qarzberish += i.DebtOut;
-                            qarzqaytish += i.DebtIncome;
-                            vazvr += i.Vozvrat;
+                            var v = (from a in context.Incomes
+                                     where a.DateTimeNow >= date1.SelectedDate && a.DateTimeNow <= second
+                                     select a).ToList();
+                            DG_Income.ItemsSource = v;
+
+                            decimal allSumm = 0;
+                            decimal allSummWithSkidka = 0;
+                            decimal cas = 0;
+                            decimal plas = 0;
+                            decimal qarzberish = 0;
+                            decimal qarzqaytish = 0;
+                            decimal vazvr = 0;
+                            foreach (Income i in v)
+                            {
+                                allSumm += i.SaleProductPrice;
+                                allSummWithSkidka += i.SaleProductWithDiscountPrice;
+                                cas += i.CashIncome;
+                                plas += i.PlasticIncome;
+                                qarzberish += i.DebtOut;
+                                qarzqaytish += i.DebtIncome;
+                                vazvr += i.Vozvrat;
+                            }
+                            labAllSumma.Text = allSumm.ToString();
+                            labAllSummaWithSkidka.Text = allSummWithSkidka.ToString();
+                            labNaxt.Text = cas.ToString();
+                            labPlastik.Text = plas.ToString();
+                            labQarzga.Text = qarzberish.ToString();
+                            labQarzdan.Text = qarzqaytish.ToString();
+                            labVazvrat.Text = vazvr.ToString();
                         }
-                        labAllSumma.Text = allSumm.ToString();
-                        labAllSummaWithSkidka.Text = allSummWithSkidka.ToString();
-                        labNaxt.Text = cas.ToString();
-                        labPlastik.Text = plas.ToString();
-                        labQarzga.Text = qarzberish.ToString();
-                        labQarzdan.Text = qarzqaytish.ToString();
-                        labVazvrat.Text = vazvr.ToString();
+                        else
+                        {
+                            var v = (from a in context.Incomes
+                                     .Include(x => x.Worker)
+                                     where a.DateTimeNow >= date1.SelectedDate && a.DateTimeNow <= second && a.Worker.FIO == combWorker.SelectedItem.ToString()
+                                     select a).ToList();
+                            DG_Income.ItemsSource = v;
+                            decimal allSumm = 0;
+                            decimal allSummWithSkidka = 0;
+                            decimal cas = 0;
+                            decimal plas = 0;
+                            decimal qarzberish = 0;
+                            decimal qarzqaytish = 0;
+                            decimal vazvr = 0;
+                            foreach (Income i in v)
+                            {
+                                allSumm += i.SaleProductPrice;
+                                allSummWithSkidka += i.SaleProductWithDiscountPrice;
+                                cas += i.CashIncome;
+                                plas += i.PlasticIncome;
+                                qarzberish += i.DebtOut;
+                                qarzqaytish += i.DebtIncome;
+                                vazvr += i.Vozvrat;
+                            }
+                            labAllSumma.Text = allSumm.ToString();
+                            labAllSummaWithSkidka.Text = allSummWithSkidka.ToString();
+                            labNaxt.Text = cas.ToString();
+                            labPlastik.Text = plas.ToString();
+                            labQarzga.Text = qarzberish.ToString();
+                            labQarzdan.Text = qarzqaytish.ToString();
+                            labVazvrat.Text = vazvr.ToString();
+                        }
+
                     }
                     else
                     {
-                        var v = (from a in context.Incomes
-                                 .Include(x => x.Worker)
-                                 where a.DateTimeNow >= date1.SelectedDate && a.DateTimeNow <= second && a.Worker.FIO == combWorker.SelectedItem.ToString()
-                                 select a).ToList();
-                        DG_Income.ItemsSource = v;
-                        decimal allSumm = 0;
-                        decimal allSummWithSkidka = 0;
-                        decimal cas = 0;
-                        decimal plas = 0;
-                        decimal qarzberish = 0;
-                        decimal qarzqaytish = 0;
-                        decimal vazvr = 0;
-                        foreach (Income i in v)
-                        {
-                            allSumm += i.SaleProductPrice;
-                            allSummWithSkidka += i.SaleProductWithDiscountPrice;
-                            cas += i.CashIncome;
-                            plas += i.PlasticIncome;
-                            qarzberish += i.DebtOut;
-                            qarzqaytish += i.DebtIncome;
-                            vazvr += i.Vozvrat;
-                        }
-                        labAllSumma.Text = allSumm.ToString();
-                        labAllSummaWithSkidka.Text = allSummWithSkidka.ToString();
-                        labNaxt.Text = cas.ToString();
-                        labPlastik.Text = plas.ToString();
-                        labQarzga.Text = qarzberish.ToString();
-                        labQarzdan.Text = qarzqaytish.ToString();
-                        labVazvrat.Text = vazvr.ToString();
+                        MessageBox.Show("Ошибка");
+
                     }
 
                 }
-                else
-                {
-                    MessageBox.Show("Ошибка");
 
-                }
-
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 

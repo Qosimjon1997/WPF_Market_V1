@@ -1,4 +1,5 @@
 ﻿using Server.Data;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,15 +20,24 @@ namespace Server.UserControllers
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Refresh();
+            txtSearch.Focus();
         }
 
         private void Refresh()
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Massas
-                         select a).ToList();
-                DG_MassaType.ItemsSource = v;
+                using (ApplicationDBContext context = new ApplicationDBContext())
+                {
+                    var v = (from a in context.Massas
+                             select a).ToList();
+                    DG_MassaType.ItemsSource = v;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 
@@ -35,27 +45,35 @@ namespace Server.UserControllers
         {
             if (txtSearch.Text != "")
             {
-                using (ApplicationDBContext context = new ApplicationDBContext())
+                try
                 {
-                    var v = (from a in context.Massas
-                             where a.Name == txtSearch.Text
-                             select a).FirstOrDefault();
-                    if (v == null)
+                    using (ApplicationDBContext context = new ApplicationDBContext())
                     {
-                        Massa massa = new Massa()
+                        var v = (from a in context.Massas
+                                 where a.Name == txtSearch.Text
+                                 select a).FirstOrDefault();
+                        if (v == null)
                         {
-                            Name = txtSearch.Text
-                        };
-                        context.Massas.Add(massa);
-                        context.SaveChanges();
-                        txtSearch.Text = "";
+                            Massa massa = new Massa()
+                            {
+                                Name = txtSearch.Text
+                            };
+                            context.Massas.Add(massa);
+                            context.SaveChanges();
+                            txtSearch.Text = "";
+                        }
+                        else
+                        {
+                            MessageBox.Show("У нас ест такое тип");
+                            txtSearch.Text = "";
+                        }
+                        Refresh();
                     }
-                    else
-                    {
-                        MessageBox.Show("У нас ест такое тип");
-                        txtSearch.Text = "";
-                    }
-                    Refresh();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error");
                 }
             }
         }

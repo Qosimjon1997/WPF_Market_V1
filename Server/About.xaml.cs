@@ -15,35 +15,21 @@ using System.Windows.Shapes;
 namespace Server
 {
     /// <summary>
-    /// Interaction logic for ChangePassword.xaml
+    /// Interaction logic for About.xaml
     /// </summary>
-    public partial class ChangePassword : Window
+    public partial class About : Window
     {
-        public ChangePassword()
+        public About()
         {
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            txtOldPassw.Focus();
-        }
-
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            if(e.Key == Key.Escape)
             {
                 this.Close();
             }
-            else if (e.Key == Key.Enter)
-            {
-
-            }
-        }
-
-        private void txtOK_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

@@ -23,21 +23,29 @@ namespace Server
         {
             if (txtFIO.Text != "" && txtLogin.Text != "" && txtPassw.Password != "")
             {
-                using (ApplicationDBContext context = new ApplicationDBContext())
+                try
                 {
-                    var v = (from a in context.Workers
-                             where a.Id == _id
-                             select a).FirstOrDefault();
-                    if (v != null)
+                    using (ApplicationDBContext context = new ApplicationDBContext())
                     {
-                        v.FIO = txtFIO.Text;
-                        v.Login = txtLogin.Text;
-                        v.Passw = txtPassw.Password;
-                        v.Active = Convert.ToBoolean(checkActive.IsChecked);
+                        var v = (from a in context.Workers
+                                 where a.Id == _id
+                                 select a).FirstOrDefault();
+                        if (v != null)
+                        {
+                            v.FIO = txtFIO.Text;
+                            v.Login = txtLogin.Text;
+                            v.Passw = txtPassw.Password;
+                            v.Active = Convert.ToBoolean(checkActive.IsChecked);
 
-                        context.SaveChanges();
-                        this.Close();
+                            context.SaveChanges();
+                            this.Close();
+                        }
                     }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error");
                 }
             }
         }
@@ -52,18 +60,26 @@ namespace Server
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Workers
-                         where a.Id == _id
-                         select a).FirstOrDefault();
-                if (v != null)
+                using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    txtFIO.Text = v.FIO;
-                    txtLogin.Text = v.Login;
-                    txtPassw.Password = v.Passw;
-                    checkActive.IsChecked = v.Active;
+                    var v = (from a in context.Workers
+                             where a.Id == _id
+                             select a).FirstOrDefault();
+                    if (v != null)
+                    {
+                        txtFIO.Text = v.FIO;
+                        txtLogin.Text = v.Login;
+                        txtPassw.Password = v.Passw;
+                        checkActive.IsChecked = v.Active;
+                    }
+                    txtFIO.Focus();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
     }

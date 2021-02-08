@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Kassa1.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +31,8 @@ namespace Kassa1
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             txtShtrix.Focus();
+            labSmenaStart.Text = DateTime.Now.ToString();
+            txtEmployee.Text = Properties.Settings.Default.WorkerFIO;
         }
 
         private void btn1_Click(object sender, RoutedEventArgs e)
@@ -111,7 +115,95 @@ namespace Kassa1
 
         void pressEnter()
         {
+            using (ApplicationDBContext context = new ApplicationDBContext())
+            {
+                var v = (from a in context.Partiyas
+                            .Include(p => p.Product)
+                         where a.Product.Shtrix == txtShtrix.Text
+                         orderby a.TodayDate
+                         select a).ToList();
+                var p = (from a in context.Partiyas
+                            .Include(p => p.Product)
+                         where a.Product.Shtrix == txtShtrix.Text
+                         orderby a.TodayDate
+                         select a).Count();
 
+                if (p != 0)
+                {
+                    foreach (var q in v)
+                    {
+                        var t1 = (from a in context.Kassas
+                                  where a.Partiya.Id == q.Id
+                                  where a.WorkerID == Properties.Settings.Default.WorkerId
+                                  select a).FirstOrDefault();
+
+                        if (t1 != null)
+                        {
+                            if (q.CountProduct > t1.CountProduct)
+                            {
+                                var y = (from a in context.Kassas
+                                         where a.Partiya.Id == q.Id
+                                         where a.WorkerID == Properties.Settings.Default.WorkerId
+                                         select a).FirstOrDefault();
+                                y.CountProduct += 1;
+                                y.AllPrice = q.SalePrice * y.CountProduct;
+                                context.SaveChanges();
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            Kassa k = new Kassa()
+                            {
+                                CountProduct = 1,
+                                AllPrice = q.SalePrice,
+                                Partiya = q,
+                                WorkerID = Properties.Settings.Default.WorkerId
+                            };
+                            context.Kassas.Add(k);
+                            context.SaveChanges();
+                            break;
+                        }
+                    }
+
+                    txtShtrix.Text = "";
+                    RefreshKassa();
+                }
+                else
+                {
+                    txtShtrix.Text = "";
+                    MessageBox.Show("Этот товар не найден в базе");
+                }
+            }
+        }
+
+        private void RefreshKassa()
+        {
+            using (ApplicationDBContext context = new ApplicationDBContext())
+            {
+                var v = (from a in context.Kassas
+                         .Include(p => p.Partiya)
+                         where a.WorkerID == Properties.Settings.Default.WorkerId
+                         select new InfoKassa()
+                         {
+                             Id = a.Id,
+                             Shtrix = a.Partiya.Product.Shtrix,
+                             Name = a.Partiya.Product.NameOfProduct,
+                             TypeName = a.Partiya.Product.Types.TypeName,
+                             MassaName = a.Partiya.Product.Massa.Name,
+                             Price = a.Partiya.SalePrice,
+                             CountProduct = a.CountProduct,
+                             AllPrice = a.AllPrice
+                         }).ToList();
+                decimal SUMMA = 0;
+                foreach (var k in v)
+                {
+                    SUMMA += k.AllPrice;
+                }
+                
+                labSumma.Text = SUMMA.ToString();
+                DG_Kassa.ItemsSource = v;
+            }
         }
 
         private void btnSale_Click(object sender, RoutedEventArgs e)
@@ -123,6 +215,18 @@ namespace Kassa1
         private void btnDeleteKassa_Click(object sender, RoutedEventArgs e)
         {
             // Some Code
+            using (ApplicationDBContext context = new ApplicationDBContext())
+            {
+                var v = (from a in context.Kassas
+                         where a.WorkerID == Properties.Settings.Default.WorkerId
+                         select a).ToList();
+                foreach (Kassa k in v)
+                {
+                    context.Kassas.Remove(k);
+                }
+                context.SaveChanges();
+                RefreshKassa();
+            }
             txtShtrix.Focus();
         }
 
@@ -164,6 +268,26 @@ namespace Kassa1
             if(e.Key == Key.Enter)
             {
                 pressEnter();
+            }
+        }
+
+        private void txtShtrix_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            using(ApplicationDBContext context = new ApplicationDBContext())
+            {
+                Smena smena = new Smena()
+                {
+                    Started = Convert.ToDateTime(Properties.Settings.Default.StartSmena),
+                    Finished = DateTime.Now,
+                    WorkerId = Properties.Settings.Default.WorkerId
+                };
+                context.Smenas.Add(smena);
+                context.SaveChanges();
             }
         }
     }

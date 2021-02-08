@@ -21,6 +21,7 @@ namespace Server.Data
         public DbSet<Partiya> Partiyas { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Provider> Providers { get; set; }
+        public DbSet<Smena> Smenas { get; set; }
         public DbSet<Sold> Solds { get; set; }
         public DbSet<Types> Types { get; set; }
         public DbSet<Vazvrat> Vazvrats { get; set; }
@@ -29,12 +30,30 @@ namespace Server.Data
 
         public ApplicationDBContext()
         {
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(string.Format(@"Server={0};Database={1};User Id={2};Password={3};", Settings.Default.ServerName, Settings.Default.DbName, Settings.Default.UserId, Settings.Default.Password));
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Admin>().HasData(
+                new Admin
+                {
+                    Id = 1,
+                    Login = "admin",
+                    Passw = "admin",
+                });
+            modelBuilder.Entity<Discount>().HasData(
+                new Discount
+                {
+                    Id = 1,
+                    Precent = 5
+                });
+
         }
     }
 }

@@ -26,29 +26,37 @@ namespace Server.UserControllers
         }
         private void Refresh_DG()
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Partiyas
-                         .Include(x => x.Product)
-                         .Include(x => x.Product.Massa)
-                         .Include(x => x.Product.Types)
-                         group a by new
-                         {
-                             a.Product.Shtrix,
-                             a.Product.NameOfProduct,
-                             a.Product.Types.TypeName,
-                             a.Product.Massa.Name,
-                         } into gcs
-                         select new InfoAllProduct()
-                         {
-                             Shtrix = gcs.Key.Shtrix,
-                             NameProduct = gcs.Key.NameOfProduct,
-                             TypeName = gcs.Key.TypeName,
-                             MassaName = gcs.Key.Name,
-                             Qoldiq = gcs.Sum(x => Math.Round(Convert.ToDecimal(x.CountProduct), 2)),
-                         }).ToList();
-                v.OrderBy(x => x.NameProduct);
-                allProduct_DG.ItemsSource = v;
+                using (ApplicationDBContext context = new ApplicationDBContext())
+                {
+                    var v = (from a in context.Partiyas
+                             .Include(x => x.Product)
+                             .Include(x => x.Product.Massa)
+                             .Include(x => x.Product.Types)
+                             group a by new
+                             {
+                                 a.Product.Shtrix,
+                                 a.Product.NameOfProduct,
+                                 a.Product.Types.TypeName,
+                                 a.Product.Massa.Name,
+                             } into gcs
+                             select new InfoAllProduct()
+                             {
+                                 Shtrix = gcs.Key.Shtrix,
+                                 NameProduct = gcs.Key.NameOfProduct,
+                                 TypeName = gcs.Key.TypeName,
+                                 MassaName = gcs.Key.Name,
+                                 Qoldiq = gcs.Sum(x => Math.Round(Convert.ToDecimal(x.CountProduct), 2)),
+                             }).ToList();
+                    v.OrderBy(x => x.NameProduct);
+                    allProduct_DG.ItemsSource = v;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 

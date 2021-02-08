@@ -19,15 +19,24 @@ namespace Server.UserControllers
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Refresh();
+            txtFIO.Focus();
         }
 
         private void Refresh()
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Workers
-                         select a).ToList();
-                DG_Worker.ItemsSource = v;
+                using (ApplicationDBContext context = new ApplicationDBContext())
+                {
+                    var v = (from a in context.Workers
+                             select a).ToList();
+                    DG_Worker.ItemsSource = v;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
             }
         }
 
@@ -49,29 +58,37 @@ namespace Server.UserControllers
         {
             if (txtFIO.Text != "" && txtLogin.Text != "" && txtPassw.Password != "")
             {
-                using (ApplicationDBContext context = new ApplicationDBContext())
+                try
                 {
-                    var v = (from a in context.Workers
-                             where a.Login == txtLogin.Text && a.FIO == txtFIO.Text
-                             select a).FirstOrDefault();
-                    if (v == null)
+                    using (ApplicationDBContext context = new ApplicationDBContext())
                     {
-                        Worker w = new Worker()
+                        var v = (from a in context.Workers
+                                 where a.Login == txtLogin.Text && a.FIO == txtFIO.Text
+                                 select a).FirstOrDefault();
+                        if (v == null)
                         {
-                            FIO = txtFIO.Text,
-                            Login = txtLogin.Text,
-                            Passw = txtPassw.Password,
-                            Active = Convert.ToBoolean(checkActive.IsChecked)
-                        };
-                        context.Workers.Add(w);
-                        context.SaveChanges();
-                        txtFIO.Text = txtLogin.Text = txtPassw.Password = "";
-                        Refresh();
+                            Worker w = new Worker()
+                            {
+                                FIO = txtFIO.Text,
+                                Login = txtLogin.Text,
+                                Passw = txtPassw.Password,
+                                Active = Convert.ToBoolean(checkActive.IsChecked)
+                            };
+                            context.Workers.Add(w);
+                            context.SaveChanges();
+                            txtFIO.Text = txtLogin.Text = txtPassw.Password = "";
+                            Refresh();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Эта логин уже существует");
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("Эта логин уже существует");
-                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error");
                 }
             }
         }

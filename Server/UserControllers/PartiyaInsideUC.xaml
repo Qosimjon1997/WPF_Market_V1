@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="Server.PartiyaInsideUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Server"
+             mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Border Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Изменить партию" TextAlignment="Center" FontSize="24" Margin="0,5,0,10" />
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0,10,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="С" Grid.Column="0" Margin="0,0,15,0" FontSize="22"/>
+                    <DatePicker Grid.Column="1" x:Name="date1" Margin="0,0,15,0" FontSize="22"/>
+                    <TextBlock Text="до" Grid.Column="2" Margin="0,0,15,0" FontSize="22"/>
+                    <DatePicker Grid.Column="3" x:Name="date2" Margin="0,0,15,0" FontSize="22"/>
+                    <Button x:Name="btnExportExcel" Grid.Column="5" Click="btnExportExcel_Click" Content="Экспорт в Excel" FontSize="22"/>
+                    <Button x:Name="btnSearch" Grid.Column="6" Click="btnSearch_Click" Content="Поиск" FontSize="22"/>
+                </Grid>
+                <DataGrid Grid.Row="1" x:Name="DG" MouseDoubleClick="DG_MouseDoubleClick" CanUserDeleteRows="False" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  FontSize="16" Margin="0,10,0,10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Штрих-код" Width="100"  Binding="{Binding Shtrix, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Товар" Width="2*"  Binding="{Binding TovarNomi, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Тип" Width="100"  Binding="{Binding TovarTuri, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Масса" Width="60" Binding="{Binding TovarMassaTuri, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Цена зак." Width="90"  Binding="{Binding BazaviyNarxi, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Цена про." Width="90"  Binding="{Binding SotishNarxi, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Приход" Width="70"  Binding="{Binding OlibKelingan, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Остаток" Width="70"  Binding="{Binding Qolgan, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Поставщик" Width="*"  Binding="{Binding YetkazibBeruvchi, Mode=OneWay}"/>
+                        <DataGridTextColumn Header="Дата" Width="200"  Binding="{Binding Chislo, Mode=OneWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            
+        </Grid>
+    </Border>
+</UserControl>
