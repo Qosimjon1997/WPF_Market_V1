@@ -47,7 +47,6 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Сумма:" Grid.Column="0" Margin="0,0,15,0" FontSize="22"/>
                     <TextBlock Text="0" x:Name="labSumma" Grid.Column="1" Margin="0,0,15,0" FontSize="22"/>
-                    <Button x:Name="btnExportExcel" Grid.Column="5" Click="btnExportExcel_Click" Content="Экспорт в Excel" FontSize="22"/>
                 </Grid>
 
                 <DataGrid Grid.Row="2" x:Name="DG" CanUserDeleteRows="False" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  FontSize="16" Margin="0,10,0,10">

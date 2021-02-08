@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Server"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="ChangeAddProductWindow" Height="494" Width="800">
+        Title="Market Account-Изменить" Height="494" Width="800">
     <Border Padding="10">
         <Grid>
             <Grid.RowDefinitions>

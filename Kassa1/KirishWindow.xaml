@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kassa1"
         mc:Ignorable="d"
+        Closed="Window_Closed"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
         MinHeight="290"
         MinWidth="700"
         MaxHeight="290"
         MaxWidth="800"
+        KeyDown="Window_KeyDown"
         Title="KirishWindow" Height="290" Width="800">
 
     <Grid>
@@ -74,6 +76,9 @@
         <StatusBar Grid.Row="2" Background="#FFD8DDDD">
             <StatusBarItem>
                 <TextBlock Text="Сервер:" FontSize="14"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="" x:Name="labServerName" FontSize="14"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>

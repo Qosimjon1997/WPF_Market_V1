@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Kassa1.Data;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Kassa1
 {
@@ -32,13 +24,43 @@ namespace Kassa1
             }
             else if (e.Key == Key.Enter)
             {
-
+                pressEnter();
             }
         }
 
+        private void pressEnter()
+        {
+            try
+            {
+                using (ApplicationDBContext context = new ApplicationDBContext())
+                {
+                    var v = (from a in context.Workers
+                             where a.Id == Properties.Settings.Default.WorkerId
+                             select a).FirstOrDefault();
+                    if (v != null)
+                    {
+                        if (v.Passw == txtOldPassw.Password && txtNew1Passw.Password == txtNew2Passw.Password)
+                        {
+                            v.Passw = txtNew1Passw.Password;
+                            context.SaveChanges();
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Пароль неправильно");
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
+            }
+        }
         private void txtOK_Click(object sender, RoutedEventArgs e)
         {
-
+            pressEnter();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

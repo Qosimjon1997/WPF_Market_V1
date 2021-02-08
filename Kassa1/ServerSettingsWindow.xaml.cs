@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kassa1.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,12 +35,34 @@ namespace Kassa1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            txtServerName.Focus();
         }
 
         private void btnConnect_Click(object sender, RoutedEventArgs e)
         {
+            Properties.Settings.Default.ServerName = txtServerName.Text;
+            Properties.Settings.Default.UserId = txtUserName.Text;
+            Properties.Settings.Default.Password = txtPassword.Text;
+            Properties.Settings.Default.DbName = txtDB.Text;
+            Properties.Settings.Default.Save();
 
+            try
+            {
+                using (ApplicationDBContext context = new ApplicationDBContext())
+                {
+                    var v = (from a in context.Admins
+                             select a).FirstOrDefault();
+                    if (v != null)
+                    {
+                        MessageBox.Show("Успешно подключился к серверу!");
+                        this.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error:2 - Ошибка подключения к серверу");
+            }
         }
     }
 }

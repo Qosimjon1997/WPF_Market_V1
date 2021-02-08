@@ -40,14 +40,13 @@
                     <Button Height="50" x:Name="btnProvider" Grid.Row="4" Margin="0,2,0,2" FontSize="16" Click="btnProvider_Click" Content="Добавить&#xA;поставщик"/>
                     <Button Height="50" x:Name="btnDebtor" Grid.Row="5" Margin="0,2,0,2" FontSize="16" Click="btnDebtor_Click" Content="Должники"/>
                     <Button Height="50" x:Name="btnIncome" Grid.Row="6" Margin="0,2,0,2" FontSize="16" Click="btnIncome_Click" Content="Поступление &#xA;     денег"/>
-                    <Button Height="50" x:Name="btnDiscount" Grid.Row="7" Margin="0,2,0,2" FontSize="16" Click="btnDiscount_Click" Content="Учетная &#xA;процент"/>
-                    <Button Height="50" x:Name="btnStatistikaProduct" Grid.Row="8" Margin="0,2,0,2" FontSize="16" Click="btnStatistikaProduct_Click" Content="Статистика&#xA;  товаров"/>
-                    <Button Height="50" x:Name="btnChangePassword" Grid.Row="9" Margin="0,2,0,2" FontSize="16" Click="btnChangePassword_Click" Content="Изменит пароль"/>
-                    <Button Height="50" x:Name="btnChangePartiya" Grid.Row="10" Margin="0,2,0,2" FontSize="16" Click="btnChangePartiya_Click" Content="Изменить партию"/>
-                    <Button Height="50" x:Name="btnVazvrat" Grid.Row="11" Margin="0,2,0,2" FontSize="16" Click="btnVazvrat_Click" Content="Возврать"/>
-                    <Button Height="50" x:Name="btnSrokUtgan" Grid.Row="12" Margin="0,2,0,2" FontSize="16" Click="btnSrokUtgan_Click" Content="Просроченные&#xA;     товаровы"/>
-                    <Button Height="50" x:Name="btnSmena" Grid.Row="13" Margin="0,2,0,2" FontSize="16" Click="btnSmena_Click" Content="Смена"/>
-                    <Button Height="50" x:Name="btnAbout" Grid.Row="14" Margin="0,2,0,2" FontSize="16" Click="btnAbout_Click" Content="О программе"/>
+                    <Button Height="50" x:Name="btnStatistikaProduct" Grid.Row="7" Margin="0,2,0,2" FontSize="16" Click="btnStatistikaProduct_Click" Content="Статистика&#xA;  товаров"/>
+                    <Button Height="50" x:Name="btnChangePassword" Grid.Row="8" Margin="0,2,0,2" FontSize="16" Click="btnChangePassword_Click" Content="Изменит пароль"/>
+                    <Button Height="50" x:Name="btnChangePartiya" Grid.Row="9" Margin="0,2,0,2" FontSize="16" Click="btnChangePartiya_Click" Content="Изменить партию"/>
+                    <Button Height="50" x:Name="btnVazvrat" Grid.Row="10" Margin="0,2,0,2" FontSize="16" Click="btnVazvrat_Click" Content="Возврать"/>
+                    <Button Height="50" x:Name="btnSrokUtgan" Grid.Row="11" Margin="0,2,0,2" FontSize="16" Click="btnSrokUtgan_Click" Content="Просроченные&#xA;     товаровы"/>
+                    <Button Height="50" x:Name="btnSmena" Grid.Row="12" Margin="0,2,0,2" FontSize="16" Click="btnSmena_Click" Content="Смена"/>
+                    <Button Height="50" x:Name="btnAbout" Grid.Row="13" Margin="0,2,0,2" FontSize="16" Click="btnAbout_Click" Content="О программе"/>
                     
                 </Grid>
             </ScrollViewer>
