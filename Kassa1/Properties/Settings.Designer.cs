@@ -73,18 +73,6 @@ namespace Kassa1.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int WorkerId {
-            get {
-                return ((int)(this["WorkerId"]));
-            }
-            set {
-                this["WorkerId"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string WorkerFIO {
             get {
@@ -116,6 +104,18 @@ namespace Kassa1.Properties {
             }
             set {
                 this["StartSmena"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WorkerId {
+            get {
+                return ((int)(this["WorkerId"]));
+            }
+            set {
+                this["WorkerId"] = value;
             }
         }
     }

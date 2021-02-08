@@ -8,8 +8,6 @@ namespace Server.Data
         public int Id { get; set; }
         //Tovar narxi
         public decimal SaleProductPrice { get; set; }
-        //Tovar narxi skidka bilan
-        public decimal SaleProductWithDiscountPrice { get; set; }
         //naxt
         public decimal CashIncome { get; set; }
         //plastik

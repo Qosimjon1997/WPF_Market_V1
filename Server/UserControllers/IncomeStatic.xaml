@@ -51,8 +51,6 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Margin="0,0,15,0" FontSize="22" Text="Цена товара:"/>
                     <TextBlock Grid.Column="1" x:Name="labAllSumma" Margin="0,0,15,0" FontSize="22" Text="0" TextAlignment="Left"/>
-                    <TextBlock Grid.Column="2" Margin="0,0,15,0" FontSize="22" Text="Цена товара со скидкой:"/>
-                    <TextBlock Grid.Column="3" x:Name="labAllSummaWithSkidka" Margin="0,0,15,0" FontSize="22" Text="0" TextAlignment="Left"/>
                     <TextBlock Grid.Column="4" Margin="0,0,15,0" FontSize="22" Text="Наличными:"/>
                     <TextBlock Grid.Column="5" x:Name="labNaxt" Margin="0,0,15,0" FontSize="22" Text="0" TextAlignment="Left"/>
                 </Grid>
@@ -89,7 +87,6 @@
                 <DataGrid Grid.Row="4" x:Name="DG_Income" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  FontSize="16" Margin="0,10,0,10">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Цена товара" Width="*"  Binding="{Binding SaleProductPrice, Mode=OneWay}"/>
-                        <DataGridTextColumn Header="Цена товара со скидкой" Width="*"  Binding="{Binding SaleProductWithDiscountPrice, Mode=OneWay}"/>
                         <DataGridTextColumn Header="Наличными" Width="*"  Binding="{Binding CashIncome, Mode=OneWay}"/>
                         <DataGridTextColumn Header="В пластику" Width="*" Binding="{Binding PlasticIncome, Mode=OneWay}"/>
                         <DataGridTextColumn Header="В долгу" Width="*"  Binding="{Binding DebtOut, Mode=OneWay}"/>

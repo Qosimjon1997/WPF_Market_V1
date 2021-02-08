@@ -11,14 +11,18 @@
         Title="Market Account-Погашение задолженности" Height="450" Width="800">
     <Border Padding="10">
         <Grid>
-            <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  FontSize="16" x:Name="DG_Debt"  Margin="0,10,0,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" x:Name="btnSearch" FontSize="16" KeyUp="btnSearch_KeyUp"/>
+            <DataGrid Grid.Row="1" x:Name="DG_AllProduct" MouseDoubleClick="DG_AllProduct_MouseDoubleClick" ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" FontSize="16" Margin="0,10,0,10">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="1" Width="*"  Binding="{Binding FIO, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="2" Width="100" Binding="{Binding Address, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="3" Width="130"  Binding="{Binding Phone, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="4" Width="100"  Binding="{Binding dateTimeFrom, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="5" Width="100"  Binding="{Binding dateTimeUntil, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="6" Width="80" Binding="{Binding Price, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Штрих-код" Width="100"  Binding="{Binding Shtrix, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Товар" Width="*"  Binding="{Binding Name, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Тип" Width="100" Binding="{Binding TypeName, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Массовый тип" Width="130"  Binding="{Binding MassaName, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Цена" Width="100"  Binding="{Binding Price, Mode=OneWay}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

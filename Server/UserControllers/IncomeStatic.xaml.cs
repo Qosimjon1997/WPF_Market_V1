@@ -63,7 +63,6 @@ namespace Server.UserControllers
                             DG_Income.ItemsSource = v;
 
                             decimal allSumm = 0;
-                            decimal allSummWithSkidka = 0;
                             decimal cas = 0;
                             decimal plas = 0;
                             decimal qarzberish = 0;
@@ -72,7 +71,6 @@ namespace Server.UserControllers
                             foreach (Income i in v)
                             {
                                 allSumm += i.SaleProductPrice;
-                                allSummWithSkidka += i.SaleProductWithDiscountPrice;
                                 cas += i.CashIncome;
                                 plas += i.PlasticIncome;
                                 qarzberish += i.DebtOut;
@@ -80,7 +78,6 @@ namespace Server.UserControllers
                                 vazvr += i.Vozvrat;
                             }
                             labAllSumma.Text = allSumm.ToString();
-                            labAllSummaWithSkidka.Text = allSummWithSkidka.ToString();
                             labNaxt.Text = cas.ToString();
                             labPlastik.Text = plas.ToString();
                             labQarzga.Text = qarzberish.ToString();
@@ -95,7 +92,6 @@ namespace Server.UserControllers
                                      select a).ToList();
                             DG_Income.ItemsSource = v;
                             decimal allSumm = 0;
-                            decimal allSummWithSkidka = 0;
                             decimal cas = 0;
                             decimal plas = 0;
                             decimal qarzberish = 0;
@@ -104,7 +100,6 @@ namespace Server.UserControllers
                             foreach (Income i in v)
                             {
                                 allSumm += i.SaleProductPrice;
-                                allSummWithSkidka += i.SaleProductWithDiscountPrice;
                                 cas += i.CashIncome;
                                 plas += i.PlasticIncome;
                                 qarzberish += i.DebtOut;
@@ -112,7 +107,6 @@ namespace Server.UserControllers
                                 vazvr += i.Vozvrat;
                             }
                             labAllSumma.Text = allSumm.ToString();
-                            labAllSummaWithSkidka.Text = allSummWithSkidka.ToString();
                             labNaxt.Text = cas.ToString();
                             labPlastik.Text = plas.ToString();
                             labQarzga.Text = qarzberish.ToString();
@@ -165,7 +159,6 @@ namespace Server.UserControllers
 
                             worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(1, 6)).Merge();
                             worksheet.Cell(2, 1).Value = "Цена товара";
-                            worksheet.Cell(2, 2).Value = "Цена товара со скидкой";
                             worksheet.Cell(2, 3).Value = "Наличными";
                             worksheet.Cell(2, 4).Value = "В пластику";
                             worksheet.Cell(2, 5).Value = "В долгу";
@@ -177,13 +170,12 @@ namespace Server.UserControllers
                             foreach (Income rv in DG_Income.Items)
                             {
                                 worksheet.Cell(kk, 1).Value = rv.SaleProductPrice;
-                                worksheet.Cell(kk, 2).Value = rv.SaleProductWithDiscountPrice;
-                                worksheet.Cell(kk, 3).Value = rv.CashIncome;
-                                worksheet.Cell(kk, 4).Value = rv.PlasticIncome;
-                                worksheet.Cell(kk, 5).Value = rv.DebtOut;
-                                worksheet.Cell(kk, 6).Value = rv.DebtIncome;
-                                worksheet.Cell(kk, 7).Value = rv.Vozvrat;
-                                worksheet.Cell(kk, 8).Value = rv.DateTimeNow;
+                                worksheet.Cell(kk, 2).Value = rv.CashIncome;
+                                worksheet.Cell(kk, 3).Value = rv.PlasticIncome;
+                                worksheet.Cell(kk, 4).Value = rv.DebtOut;
+                                worksheet.Cell(kk, 5).Value = rv.DebtIncome;
+                                worksheet.Cell(kk, 6).Value = rv.Vozvrat;
+                                worksheet.Cell(kk, 7).Value = rv.DateTimeNow;
                                 kk++;
                             }
 

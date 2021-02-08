@@ -62,11 +62,6 @@ namespace Server
             gridForUC.Children.Add(obj);
         }
 
-        private void btnDiscount_Click(object sender, RoutedEventArgs e)
-        {
-            DiscountWindow window = new DiscountWindow();
-            window.ShowDialog();
-        }
 
         private void btnStatistikaProduct_Click(object sender, RoutedEventArgs e)
         {

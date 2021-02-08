@@ -1,19 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Server.Data;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Server.UserControllers
 {
@@ -60,11 +51,12 @@ namespace Server.UserControllers
                 {
                     if (combWorker.SelectedItem != null && date1.SelectedDate.ToString() != "" && date2.SelectedDate.ToString() != "")
                     {
+                        DateTime second = new DateTime(Convert.ToInt32(date2.SelectedDate.Value.ToString("yyyy")), Convert.ToInt32(date2.SelectedDate.Value.ToString("MM")), Convert.ToInt32(date2.SelectedDate.Value.ToString("dd")), 23, 59, 59);
                         if (combWorker.SelectedItem.ToString() == "Все")
                         {
                             var v = (from a in context.Solds
                                      .Include(x => x.Worker)
-                                     where a.dateTimeNow >= date1.SelectedDate && a.dateTimeNow <= date2.SelectedDate
+                                     where a.dateTimeNow >= date1.SelectedDate && a.dateTimeNow <= second
                                      select a).ToList();
                             DG_Sold.ItemsSource = v;
 
