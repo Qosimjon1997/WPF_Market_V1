@@ -167,38 +167,46 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error4");
             }
         }
 
         //Tayyor
         private void RefreshKassa()
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.Kassas
-                         .Include(p => p.Partiya)
-                         where a.WorkerID == Properties.Settings.Default.WorkerId
-                         select new InfoKassa()
-                         {
-                             Id = a.Id,
-                             Shtrix = a.Partiya.Product.Shtrix,
-                             Name = a.Partiya.Product.NameOfProduct,
-                             TypeName = a.Partiya.Product.Types.TypeName,
-                             MassaName = a.Partiya.Product.Massa.Name,
-                             Price = a.Partiya.SalePrice,
-                             CountProduct = a.CountProduct,
-                             AllPrice = a.AllPrice
-                         }).ToList();
-                decimal SUMMA = 0;
-                foreach (var k in v)
+                using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    SUMMA += k.AllPrice;
+                    var v = (from a in context.Kassas
+                             .Include(p => p.Partiya)
+                             where a.WorkerID == Properties.Settings.Default.WorkerId
+                             select new InfoKassa()
+                             {
+                                 Id = a.Id,
+                                 Shtrix = a.Partiya.Product.Shtrix,
+                                 Name = a.Partiya.Product.NameOfProduct,
+                                 TypeName = a.Partiya.Product.Types.TypeName,
+                                 MassaName = a.Partiya.Product.Massa.Name,
+                                 Price = a.Partiya.SalePrice,
+                                 CountProduct = a.CountProduct,
+                                 AllPrice = a.AllPrice
+                             }).ToList();
+                    decimal SUMMA = 0;
+                    foreach (var k in v)
+                    {
+                        SUMMA += k.AllPrice;
+                    }
+
+                    labSumma.Text = SUMMA.ToString();
+                    DG_Kassa.ItemsSource = v;
                 }
-                
-                labSumma.Text = SUMMA.ToString();
-                DG_Kassa.ItemsSource = v;
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error5");
+            }
+            
         }
 
         private void btnSale_Click(object sender, RoutedEventArgs e)
@@ -227,7 +235,7 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error6");
             }
             txtShtrix.Focus();
         }
@@ -289,7 +297,7 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error7");
             }
             txtShtrix.Focus();
         }
@@ -336,7 +344,7 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error8");
             }
         }
 
@@ -354,7 +362,7 @@ namespace Kassa1
             }
             catch (Exception err)
             {
-                MessageBox.Show(err.Message);
+                MessageBox.Show("Error9");
             }
         }
 

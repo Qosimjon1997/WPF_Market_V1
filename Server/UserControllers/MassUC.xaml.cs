@@ -37,7 +37,7 @@ namespace Server.UserControllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error9");
             }
         }
 
@@ -73,7 +73,7 @@ namespace Server.UserControllers
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error");
+                    MessageBox.Show("Error10");
                 }
             }
         }

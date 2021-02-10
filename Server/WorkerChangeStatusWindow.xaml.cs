@@ -45,7 +45,7 @@ namespace Server
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error");
+                    MessageBox.Show("Error54");
                 }
             }
         }
@@ -79,7 +79,7 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error55");
             }
         }
     }

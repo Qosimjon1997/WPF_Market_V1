@@ -55,7 +55,7 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error10");
             }
         }
         private void txtOK_Click(object sender, RoutedEventArgs e)

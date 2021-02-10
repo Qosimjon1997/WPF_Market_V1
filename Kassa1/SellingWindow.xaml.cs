@@ -1,6 +1,7 @@
 ﻿using Kassa1.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
@@ -66,17 +67,25 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error19");
             }
         }
         private void Refresh_DG()
         {
-            using (ApplicationDBContext context = new ApplicationDBContext())
+            try
             {
-                var v = (from a in context.DebtInfos
-                         select a).ToList();
-                DG_AllDebtor.ItemsSource = v;
+                using (ApplicationDBContext context = new ApplicationDBContext())
+                {
+                    var v = (from a in context.DebtInfos
+                             select a).ToList();
+                    DG_AllDebtor.ItemsSource = v;
+                }
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error20");
+            }
+            
         }
 
         #region Check chiqarish
@@ -92,15 +101,17 @@ namespace Kassa1
         public void ProvideContent(object sender, PrintPageEventArgs e)
         {
             const int FIRST_COL_PAD = 8;
-            const int SECOND_COL_PAD = 9;
-            const int THIRD_COL_PAD = 10;
+            const int SECOND_COL_PAD = 10;
+            const int THIRD_COL_PAD = 12;
 
 
             var sb = new StringBuilder();
             //replace with item.Branch
-            sb.AppendLine("Firmaning Nomi");
+            sb.AppendLine("OK IMRONSHOX SHOXJAXON");
+            sb.AppendLine("Samarqand,Samarqand shahar");
+            sb.AppendLine("Qorasuv maskani 77/3");
             sb.AppendLine(" ");
-            sb.AppendLine(("Тел:+998 99 590-61-55 "));
+            sb.AppendLine(("Тел:+998 97 914-78-87"));
             sb.AppendLine(" ");
             sb.Append(("Дата:").PadRight(8));
             sb.AppendLine(DateTime.Now.ToString());
@@ -123,26 +134,27 @@ namespace Kassa1
                     foreach (Kassa k in v)
                     {
                         string q = k.Partiya.Product.NameOfProduct;
-                        if (q.Length > 9)
+                        if (q.Length > 10)
                         {
-                            sb.AppendLine(q.Substring(0, 9));
-                            sb.Append(q.Substring(10).PadLeft(FIRST_COL_PAD));
+                            sb.AppendLine(q.Substring(0, 10));
+                            sb.Append(q.Substring(11).PadLeft(FIRST_COL_PAD));
                         }
                         else
                         {
                             sb.Append(q.PadLeft(FIRST_COL_PAD));
                         }
+                        //sb.Append(q.PadLeft(FIRST_COL_PAD));
                         sb.Append((k.CountProduct.ToString()).PadLeft(SECOND_COL_PAD));
                         sb.AppendLine((k.AllPrice.ToString().PadLeft(THIRD_COL_PAD)));
-
+                        sb.AppendLine(" ");
                     }
                 }
             }
             sb.AppendLine("-".PadRight(60, '-'));
             sb.AppendLine(" ");
-            sb.AppendLine("Пластик:" + String.Format("{0:0.00}", Convert.ToDecimal(txtPlastik.Text)));
-            sb.AppendLine(" ");
             sb.AppendLine("Наличные:" + String.Format("{0:0.00}", Convert.ToDecimal(txtNaqt.Text)));
+            sb.AppendLine(" ");
+            sb.AppendLine("Пластик:" + String.Format("{0:0.00}", Convert.ToDecimal(txtPlastik.Text)));
             sb.AppendLine(" ");
             sb.AppendLine("Долг:" + String.Format("{0:0.00}", Convert.ToDecimal(txtQarz.Text)));
             sb.AppendLine(" ");
@@ -354,7 +366,7 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error21");
             }
         }
 
@@ -489,7 +501,7 @@ namespace Kassa1
             }
             catch (Exception err)
             {
-                MessageBox.Show(err.Message);
+                MessageBox.Show("Error22");
             }
 
         }
