@@ -2,21 +2,11 @@
 using Microsoft.Win32;
 using Server.Data;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Server.UserControllers
 {
@@ -106,7 +96,7 @@ namespace Server.UserControllers
             }
             catch (Exception err)
             {
-                MessageBox.Show(err.ToString());
+                MessageBox.Show("Error23");
             }
         }
 
@@ -130,15 +120,16 @@ namespace Server.UserControllers
                                      MassaName = g.Key.MassaName,
                                      TypeName = g.Key.TypeName,
                                      Miqdor = g.Sum(x => x.CountProduct),
-                                     Foyda = g.Sum(x => x.SalePrice) - g.Sum(y => y.BazaPrice)
+                                     Foyda = g.Sum(x => (x.SalePrice - x.BazaPrice )*x.CountProduct)
                                  }).ToList();
+                        labSumma.Text = v.Sum(x => x.Foyda).ToString();
                         DG.ItemsSource = v;
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error");
+                    MessageBox.Show("Error24");
                 }
             }
             else

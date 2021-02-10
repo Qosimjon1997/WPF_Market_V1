@@ -27,9 +27,9 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" x:Name="btnAdd" Click="btnAdd_Click" Content="Добавить новый&#xa;       продукт" FontSize="22"/>
-                    <Button Grid.Column="2" x:Name="btnRefresh" Click="btnRefresh_Click" Content="Обновить" FontSize="22"/>
-                    <Button Grid.Column="4" x:Name="btnExportExcel" Click="btnExportExcel_Click" Content="Экспорт в Excel" FontSize="22"/>
+                    <Button Grid.Column="0" x:Name="btnAdd" Click="btnAdd_Click" Content="Добавить новый&#xa;       продукт" FontSize="16"/>
+                    <Button Grid.Column="2" x:Name="btnRefresh" Click="btnRefresh_Click" Content="Обновить" FontSize="16"/>
+                    <Button Grid.Column="4" x:Name="btnExportExcel" Click="btnExportExcel_Click" Content="Экспорт в Excel" FontSize="16"/>
                 </Grid>
                 <DataGrid ItemsSource="{Binding}" CanUserDeleteRows="False" MouseDoubleClick="allProduct_DG_MouseDoubleClick" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow"  FontSize="16" x:Name="allProduct_DG" Grid.Row="1" Margin="0,10,0,10">
                     <DataGrid.Columns>

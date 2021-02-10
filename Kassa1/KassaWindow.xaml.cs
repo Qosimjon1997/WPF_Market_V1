@@ -41,7 +41,7 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error13");
             }
         }
 
@@ -74,7 +74,7 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error14");
             }
         }
 
@@ -109,7 +109,7 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error15");
             }
         }
 
