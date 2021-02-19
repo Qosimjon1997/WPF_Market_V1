@@ -23,76 +23,38 @@ namespace Server.UserControllers
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            date1.SelectedDate = DateTime.Today;
-            date2.SelectedDate = DateTime.Today;
-            combTypeDebt.Items.Add("Все");
-            combTypeDebt.Items.Add("Оплачено");
-            combTypeDebt.Items.Add("Не оплачено");
 
-            combTypeDebt.SelectedIndex = 0;
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
+            Refresh();
+        }
+
+        void Refresh()
+        {
             try
             {
-                DateTime second = new DateTime(Convert.ToInt32(date2.SelectedDate.Value.ToString("yyyy")), Convert.ToInt32(date2.SelectedDate.Value.ToString("MM")), Convert.ToInt32(date2.SelectedDate.Value.ToString("dd")), 23, 59, 59);
                 using (ApplicationDBContext context = new ApplicationDBContext())
                 {
-                    if (combTypeDebt.SelectedIndex == 0)
-                    {
-                        var v = (from a in context.Debts
+                    var v = (from a in context.Debts
                              .Include(x => x.DebtInfo)
-                                 where date1.SelectedDate <= a.dateTimeFrom && a.dateTimeFrom <= second
-                                 select new InfoDebt()
-                                 {
-                                     Id = a.Id,
-                                     FIO = a.DebtInfo.FIO,
-                                     Address = a.DebtInfo.Address,
-                                     Phone = a.DebtInfo.Phone,
-                                     dateTimeFrom = a.dateTimeFrom,
-                                     dateTimeLastPay = a.dateTimePay,
-                                     dateTimeUntil = a.dateTimeUntil,
-                                     Price = a.Price
-                                 }).ToList();
-                        DG.ItemsSource = v;
-                    }
-                    else if (combTypeDebt.SelectedIndex == 1)
-                    {
-                        var v = (from a in context.Debts
-                             .Include(x => x.DebtInfo)
-                                 where date1.SelectedDate <= a.dateTimeFrom && a.dateTimeFrom <= second && a.Price == 0
-                                 select new InfoDebt()
-                                 {
-                                     Id = a.Id,
-                                     FIO = a.DebtInfo.FIO,
-                                     Address = a.DebtInfo.Address,
-                                     Phone = a.DebtInfo.Phone,
-                                     dateTimeFrom = a.dateTimeFrom,
-                                     dateTimeLastPay = a.dateTimePay,
-                                     dateTimeUntil = a.dateTimeUntil,
-                                     Price = a.Price
-                                 }).ToList();
-                        DG.ItemsSource = v;
-                    }
-                    else
-                    {
-                        var v = (from a in context.Debts
-                             .Include(x => x.DebtInfo)
-                                 where date1.SelectedDate <= a.dateTimeFrom && a.dateTimeFrom <= second && a.Price != 0
-                                 select new InfoDebt()
-                                 {
-                                     Id = a.Id,
-                                     FIO = a.DebtInfo.FIO,
-                                     Address = a.DebtInfo.Address,
-                                     Phone = a.DebtInfo.Phone,
-                                     dateTimeFrom = a.dateTimeFrom,
-                                     dateTimeLastPay = a.dateTimePay,
-                                     dateTimeUntil = a.dateTimeUntil,
-                                     Price = a.Price
-                                 }).ToList();
-                        DG.ItemsSource = v;
-                    }
+                             group a by new
+                             {
+                                 a.DebtInfoId,
+                                 a.DebtInfo.FIO,
+                                 a.DebtInfo.Address,
+                                 a.DebtInfo.Phone,
+                             } into gcs
+                             select new InfoDebt()
+                             {
+                                 Id = gcs.Key.DebtInfoId,
+                                 FIO = gcs.Key.FIO,
+                                 Address = gcs.Key.Address,
+                                 Phone = gcs.Key.Phone,
+                                 Price = gcs.Sum(x => x.Price)
+                             }).ToList();
+                    DG.ItemsSource = v;
 
                 }
 
@@ -102,10 +64,8 @@ namespace Server.UserControllers
                 MessageBox.Show("Error4");
             }
         }
-
         private void btnExportExcel_Click(object sender, RoutedEventArgs e)
         {
-            DateTime second = new DateTime(Convert.ToInt32(date2.SelectedDate.Value.ToString("yyyy")), Convert.ToInt32(date2.SelectedDate.Value.ToString("MM")), Convert.ToInt32(date2.SelectedDate.Value.ToString("dd")), 23, 59, 59);
             try
             {
                 if (DG.Items.Count > 0)
@@ -127,17 +87,14 @@ namespace Server.UserControllers
                             var workbook = new XLWorkbook();
                             IXLWorksheet worksheet = workbook.Worksheets.Add("Sheet1");
                             worksheet.Columns().AdjustToContents();
-                            worksheet.Cell(1, 1).Value = "Отчет с " + date1.SelectedDate + " по " + second + "по видам задолженности " + combTypeDebt.SelectedItem;
+                            worksheet.Cell(1, 1).Value = "Отчет должники";
                             worksheet.Cell(1, 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
 
                             worksheet.Range(worksheet.Cell(1, 1), worksheet.Cell(1, 6)).Merge();
                             worksheet.Cell(2, 1).Value = "Ф.И.О";
                             worksheet.Cell(2, 2).Value = "Адрес";
                             worksheet.Cell(2, 3).Value = "Тел";
-                            worksheet.Cell(2, 4).Value = "С";
-                            worksheet.Cell(2, 5).Value = "До";
-                            worksheet.Cell(2, 6).Value = "Последний платеж";
-                            worksheet.Cell(2, 7).Value = "Сумма";
+                            worksheet.Cell(2, 4).Value = "Сумма";
 
                             int kk = 3;
                             foreach (InfoDebt rv in DG.Items)
@@ -145,10 +102,7 @@ namespace Server.UserControllers
                                 worksheet.Cell(kk, 1).Value = rv.FIO;
                                 worksheet.Cell(kk, 2).Value = rv.Address;
                                 worksheet.Cell(kk, 3).Value = rv.Phone;
-                                worksheet.Cell(kk, 4).Value = rv.dateTimeFrom;
-                                worksheet.Cell(kk, 5).Value = rv.dateTimeUntil;
-                                worksheet.Cell(kk, 6).Value = rv.dateTimeLastPay;
-                                worksheet.Cell(kk, 7).Value = rv.Price;
+                                worksheet.Cell(kk, 4).Value = rv.Price;
                                 kk++;
                             }
 
@@ -177,6 +131,39 @@ namespace Server.UserControllers
             catch (Exception err)
             {
                 MessageBox.Show("Error5");
+            }
+        }
+
+        private void DG_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (DG.SelectedCells.Count > 0 && DG.SelectedCells[0].IsValid)
+                {
+                    InfoDebt t = DG.SelectedItem as InfoDebt;
+                    using (ApplicationDBContext context = new ApplicationDBContext())
+                    {
+                        Debt v = (from a in context.Debts
+                                     .Include(p => p.DebtInfo)
+                                  where a.Id == t.Id
+                                  select a).FirstOrDefault();
+
+                        if (v != null)
+                        {
+                            HistoryDebitorsWindow window = new HistoryDebitorsWindow(v.DebtInfoId);
+                            window.ShowDialog();
+                            Refresh();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Этот должник не найден в базе");
+                        }
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("Error23");
             }
         }
     }

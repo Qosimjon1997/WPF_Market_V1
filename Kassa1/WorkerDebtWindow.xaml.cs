@@ -25,16 +25,20 @@ namespace Kassa1
                 {
                     var v = (from a in context.Debts
                              .Include(x => x.DebtInfo)
-                             where a.Price != 0
+                             group a by new
+                             {
+                                 a.DebtInfoId,
+                                 a.DebtInfo.FIO,
+                                 a.DebtInfo.Address,
+                                 a.DebtInfo.Phone,
+                             } into gcs
                              select new InfoDebt()
                              {
-                                 Id = a.Id,
-                                 FIO = a.DebtInfo.FIO,
-                                 Address = a.DebtInfo.Address,
-                                 Phone = a.DebtInfo.Phone,
-                                 dateTimeFrom = a.dateTimeFrom,
-                                 dateTimeUntil = a.dateTimeUntil,
-                                 Price = a.Price
+                                 Id = gcs.Key.DebtInfoId,
+                                 FIO = gcs.Key.FIO,
+                                 Address = gcs.Key.Address,
+                                 Phone = gcs.Key.Phone,
+                                 Price = gcs.Sum(x => x.Price)
                              }).ToList();
                     DG_Debt.ItemsSource = v;
 
@@ -43,7 +47,7 @@ namespace Kassa1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Error24");
             }
         }
 
@@ -63,7 +67,7 @@ namespace Kassa1
 
                         if (v != null)
                         {
-                            DebtWindow window = new DebtWindow(v.Id);
+                            HistoryDebitorsWindow window = new HistoryDebitorsWindow(v.DebtInfoId);
                             window.ShowDialog();
                             Refresh();
                         }

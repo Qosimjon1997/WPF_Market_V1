@@ -6,9 +6,7 @@ namespace Kassa1.Data
     {
         //Qarzdorlik puli
         public int Id { get; set; }
-        public DateTime dateTimeFrom { get; set; }
-        public DateTime dateTimeUntil { get; set; }
-        public DateTime dateTimePay { get; set; }
+        public DateTime timeNow { get; set; }
         public decimal Price { get; set; }
 
         public int DebtInfoId { get; set; }

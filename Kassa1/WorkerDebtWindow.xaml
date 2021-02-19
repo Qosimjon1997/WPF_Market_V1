@@ -16,8 +16,6 @@
                     <DataGridTextColumn Header="Ф.И.О" Width="*"  Binding="{Binding FIO, Mode=OneWay}"/>
                     <DataGridTextColumn Header="Адрес" Width="100" Binding="{Binding Address, Mode=OneWay}"/>
                     <DataGridTextColumn Header="Тел" Width="130"  Binding="{Binding Phone, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="С" Width="100"  Binding="{Binding dateTimeFrom, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="До" Width="100"  Binding="{Binding dateTimeUntil, Mode=OneWay}"/>
                     <DataGridTextColumn Header="Сумма" Width="80" Binding="{Binding Price, Mode=OneWay}"/>
                 </DataGrid.Columns>
             </DataGrid>
