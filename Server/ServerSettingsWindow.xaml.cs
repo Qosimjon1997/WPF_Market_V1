@@ -18,6 +18,11 @@ namespace Server
 
         private void btnConnect_Click(object sender, RoutedEventArgs e)
         {
+            downEnter();
+        }
+
+        void downEnter()
+        {
             Properties.Settings.Default.ServerName = txtServerName.Text;
             Properties.Settings.Default.UserId = txtUserName.Text;
             Properties.Settings.Default.Password = txtPassword.Text;
@@ -37,18 +42,20 @@ namespace Server
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Error:1 - Ошибка подключения к серверу");
             }
-            
         }
-
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Escape)
             {
                 this.Close();
+            }
+            if(e.Key == Key.Enter)
+            {
+                downEnter();
             }
         }
 

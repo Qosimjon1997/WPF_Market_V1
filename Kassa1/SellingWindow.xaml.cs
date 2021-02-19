@@ -30,7 +30,6 @@ namespace Kassa1
         {
             txtNaqt.Text = (Convert.ToInt32(_AllSum)).ToString();
             labSUMM.Text = _AllSum.ToString();
-            date1.SelectedDate = DateTime.Today;
             Refresh_DG();
 
         }
@@ -209,9 +208,8 @@ namespace Kassa1
                                     };
                                     Debt d = new Debt()
                                     {
-                                        dateTimeFrom = DateTime.Now,
-                                        dateTimeUntil = (DateTime)date1.SelectedDate,
-                                        Price = Convert.ToDecimal(txtQarz.Text),
+                                        timeNow = DateTime.Now,
+                                        Price = -1*Convert.ToDecimal(txtQarz.Text),
                                         DebtInfoId = q.Id
                                     };
 

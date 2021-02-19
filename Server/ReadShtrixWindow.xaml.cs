@@ -32,6 +32,7 @@ namespace Server
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             myPressFunc();
+            txtShtrix.Focus();
         }
 
         private void myPressFunc()
@@ -70,6 +71,7 @@ namespace Server
             if (e.Key == Key.Enter)
             {
                 myPressFunc();
+                txtShtrix.Focus();
             }
         }
     }

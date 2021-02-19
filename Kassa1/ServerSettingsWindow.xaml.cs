@@ -22,6 +22,10 @@ namespace Kassa1
             {
                 this.Close();
             }
+            if(e.Key == Key.Enter)
+            {
+                downEnter();
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -29,7 +33,7 @@ namespace Kassa1
             txtServerName.Focus();
         }
 
-        private void btnConnect_Click(object sender, RoutedEventArgs e)
+        void downEnter()
         {
             Properties.Settings.Default.ServerName = txtServerName.Text;
             Properties.Settings.Default.UserId = txtUserName.Text;
@@ -54,6 +58,10 @@ namespace Kassa1
             {
                 MessageBox.Show("Error:1 - Ошибка подключения к серверу");
             }
+        }
+        private void btnConnect_Click(object sender, RoutedEventArgs e)
+        {
+            downEnter();
         }
     }
 }

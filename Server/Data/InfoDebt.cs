@@ -13,9 +13,6 @@ namespace Server.Data
         public string FIO { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-        public DateTime dateTimeFrom { get; set; }
-        public DateTime dateTimeUntil { get; set; }
-        public DateTime dateTimeLastPay { get; set; }
         public decimal Price { get; set; }
     }
 }
