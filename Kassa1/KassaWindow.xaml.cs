@@ -45,7 +45,7 @@ namespace Kassa1
             }
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        void btnEnterClick()
         {
             try
             {
@@ -57,9 +57,9 @@ namespace Kassa1
                              select a).FirstOrDefault();
                     if (v != null)
                     {
-                        if (myUpDownControl.Value > 0)
+                        if (myUpDown.Value > 0)
                         {
-                            v.CountProduct = Convert.ToDecimal(myUpDownControl.Value);
+                            v.CountProduct = Convert.ToDecimal(myUpDown.Value);
                             v.AllPrice = Convert.ToDecimal(labSUMMA.Text);
                         }
                         else
@@ -76,6 +76,11 @@ namespace Kassa1
             {
                 MessageBox.Show("Error14");
             }
+
+        }
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            btnEnterClick();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -97,13 +102,14 @@ namespace Kassa1
                         labTovarMiqdorTuri.Text = v.Partiya.Product.Massa.Name;
                         labTovarTuri.Text = v.Partiya.Product.Types.TypeName;
                         labTovarNarci.Text = v.Partiya.SalePrice.ToString();
-                        myUpDownControl.Value = Convert.ToInt32(v.CountProduct);
+                        myUpDown.Value = Convert.ToDecimal(v.CountProduct);
                         AllSumma();
                     }
                     var b = (from a in context.Partiyas
                              where a.Id == v.Partiya.Id
                              select a).FirstOrDefault();
-                    myUpDownControl.Maximum = Convert.ToInt32(b.CountProduct);
+                    myUpDown.Maximum = Convert.ToDecimal(b.CountProduct);
+                    labMaxKol.Text = (b.CountProduct).ToString();
 
                 }
             }
@@ -116,7 +122,7 @@ namespace Kassa1
         void AllSumma()
         {
             decimal pricaOne = Convert.ToDecimal(labTovarNarci.Text);
-            decimal countAll = Convert.ToDecimal(myUpDownControl.Value);
+            decimal countAll = Convert.ToDecimal(myUpDown.Value);
             labSUMMA.Text = Convert.ToString(pricaOne * countAll);
         }
 
@@ -126,9 +132,13 @@ namespace Kassa1
             {
                 this.Close();
             }
+            else if(e.Key == Key.Enter)
+            {
+                btnEnterClick();
+            }
         }
 
-        private void myUpDownControl_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void myUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             AllSumma();
         }

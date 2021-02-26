@@ -111,6 +111,26 @@ namespace Kassa1
                              where a.Product.Shtrix == txtShtrix.Text
                              orderby a.TodayDate
                              select a).ToList();
+                    var v2 = (from a in context.Partiyas
+                             .Include(x => x.Product)
+                             .Include(x => x.Product.Massa)
+                             .Include(x => x.Product.Types)
+                              where a.Product.Shtrix == txtShtrix.Text
+                              group a by new
+                              {
+                                  a.Product.Shtrix,
+                                  a.Product.NameOfProduct,
+                                  a.Product.Types.TypeName,
+                                  a.Product.Massa.Name,
+                              } into gcs
+                              select new InfoAllProduct()
+                              {
+                                  Shtrix = gcs.Key.Shtrix,
+                                  NameProduct = gcs.Key.NameOfProduct,
+                                  TypeName = gcs.Key.TypeName,
+                                  MassaName = gcs.Key.Name,
+                                  Qoldiq = gcs.Sum(x => Math.Round(Convert.ToDecimal(x.CountProduct), 2)),
+                              }).FirstOrDefault();
                     var p = (from a in context.Partiyas
                                 .Include(p => p.Product)
                              where a.Product.Shtrix == txtShtrix.Text
@@ -118,49 +138,58 @@ namespace Kassa1
 
                     if (p != 0)
                     {
-                        foreach (var q in v)
+                        if (v2.Qoldiq > 0)
                         {
-                            var t1 = (from a in context.Kassas
-                                      where a.Partiya.Id == q.Id
-                                      where a.WorkerID == Properties.Settings.Default.WorkerId
-                                      select a).FirstOrDefault();
-
-                            if (t1 != null)
+                            foreach (var q in v)
                             {
-                                if (q.CountProduct > t1.CountProduct)
+                                var t1 = (from a in context.Kassas
+                                          where a.Partiya.Id == q.Id
+                                          where a.WorkerID == Properties.Settings.Default.WorkerId
+                                          select a).FirstOrDefault();
+
+                                if (t1 != null)
                                 {
-                                    var y = (from a in context.Kassas
-                                             where a.Partiya.Id == q.Id
-                                             where a.WorkerID == Properties.Settings.Default.WorkerId
-                                             select a).FirstOrDefault();
-                                    y.CountProduct += 1;
-                                    y.AllPrice = q.SalePrice * y.CountProduct;
+                                    if (q.CountProduct > t1.CountProduct)
+                                    {
+                                        var y = (from a in context.Kassas
+                                                 where a.Partiya.Id == q.Id
+                                                 where a.WorkerID == Properties.Settings.Default.WorkerId
+                                                 select a).FirstOrDefault();
+                                        y.CountProduct += 1;
+                                        y.AllPrice = q.SalePrice * y.CountProduct;
+                                        context.SaveChanges();
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    Kassa k = new Kassa()
+                                    {
+                                        CountProduct = 1,
+                                        AllPrice = q.SalePrice,
+                                        Partiya = q,
+                                        WorkerID = Properties.Settings.Default.WorkerId
+                                    };
+                                    context.Kassas.Add(k);
                                     context.SaveChanges();
                                     break;
                                 }
                             }
-                            else
-                            {
-                                Kassa k = new Kassa()
-                                {
-                                    CountProduct = 1,
-                                    AllPrice = q.SalePrice,
-                                    Partiya = q,
-                                    WorkerID = Properties.Settings.Default.WorkerId
-                                };
-                                context.Kassas.Add(k);
-                                context.SaveChanges();
-                                break;
-                            }
+
+                        }
+                        else
+                        {
+                            txtShtrix.Text = "";
+                            MessageBox.Show("Этот товар не остался в базе");
                         }
 
                         txtShtrix.Text = "";
                         RefreshKassa();
                     }
-                    else if (p==0)
+                    else if (p<=0)
                     {
                         txtShtrix.Text = "";
-                        //MessageBox.Show("Этот товар не найден в базе");
+                        MessageBox.Show("Этот товар не найден в базе");
                     }
                 }
 
